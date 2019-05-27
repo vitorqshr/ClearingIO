@@ -261,30 +261,4 @@ public class MsgBuilder<T> {
 		}
 		return bit.fixedLength();
 	}
-
-	public static void main(String[] args) {
-		try(DataInputStream in = new DataInputStream(new FileInputStream("C:\\SIPPE\\adq\\master\\MCI.AR.T112.ADQ.BANCOOB.C.E0087996.D190517.T032428.A004.ipm"))) {
-			MsgBuilder<Msg> msgBuilder = new MsgBuilder<>(Msg.class, Encode.EBCDIC);
-			for (int len = in.readInt(); 0 < len; len = in.readInt()) {
-				byte[] array = new  byte[len];
-				in.read(array);
-				Msg msg = msgBuilder.unpack(array);
-				System.out.println(msg.toString());
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (NotFoundMTIException e) {
-			e.printStackTrace();
-		}
-	}
 }

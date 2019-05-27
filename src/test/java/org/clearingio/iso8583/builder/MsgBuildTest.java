@@ -2,7 +2,15 @@ package org.clearingio.iso8583.builder;
 
 import org.clearingio.iso8583.annotation.enumeration.Encode;
 import static org.junit.Assert.*;
+
+import org.clearingio.iso8583.exception.NotFoundMTIException;
 import org.junit.Test;
+
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class MsgBuildTest {
 
@@ -29,6 +37,33 @@ public class MsgBuildTest {
 		assertEquals(actual.getAmountCardholderBilling().longValue(), expected.getAmountCardholderBilling().longValue());
 		assertEquals(actual.getFunctionCode().longValue(), expected.getFunctionCode().longValue());
 		assertEquals(actual.getDataRecord(), expected.getDataRecord());
+	}
+
+	@Test
+	public void testGerarArquivo() {
+		try(DataInputStream in = new DataInputStream(new FileInputStream("C:\\Users\\uesr\\Desktop\\asdf.ipm"))) {
+			MsgBuilder<Msg> msgBuilder = new MsgBuilder<>(Msg.class, Encode.EBCDIC);
+			for (int len = in.readInt(); 0 < len; len = in.readInt()) {
+				byte[] array = new  byte[len];
+				in.read(array);
+				Msg msg = msgBuilder.unpack(array);
+				System.out.println(msg.toString());
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (NotFoundMTIException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
