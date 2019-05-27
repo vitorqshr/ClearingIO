@@ -6,10 +6,7 @@ import static org.junit.Assert.*;
 import org.clearingio.iso8583.exception.NotFoundMTIException;
 import org.junit.Test;
 
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 
 public class MsgBuildTest {
@@ -39,32 +36,55 @@ public class MsgBuildTest {
 		assertEquals(actual.getDataRecord(), expected.getDataRecord());
 	}
 
-	@Test
-	public void testGerarArquivo() {
-		try(DataInputStream in = new DataInputStream(new FileInputStream("C:\\Users\\uesr\\Desktop\\asdf.ipm"))) {
-			MsgBuilder<Msg> msgBuilder = new MsgBuilder<>(Msg.class, Encode.EBCDIC);
-			for (int len = in.readInt(); 0 < len; len = in.readInt()) {
-				byte[] array = new  byte[len];
-				in.read(array);
-				Msg msg = msgBuilder.unpack(array);
-				System.out.println(msg.toString());
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (NotFoundMTIException e) {
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void testGerarArquivo() {
+//		try(DataOutputStream out = new DataOutputStream(new FileOutputStream("C:\\Users\\uesr\\Desktop\\asdf.ipm"))) {
+//			Msg expected = new Msg();
+//			expected.setMessageTypeIdentifier(1240);
+//			expected.setPrimaryAccountNumber("5412345678909283");
+//			expected.setProcessingCode(003000);
+//			expected.setAmountTransaction(100);
+//			expected.setAmountReconciliation(100);
+//			expected.setAmountCardholderBilling(100);
+//			expected.setFunctionCode(200);
+//			expected.setDataRecord("teste");
+//			MsgBuilder<Msg> msgBuilder = new MsgBuilder(Msg.class, Encode.EBCDIC);
+//			byte[] buf = msgBuilder.pack(expected);
+//			out.writeInt(buf.length);
+//			out.write(buf);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+
+//	@Test
+//	public void testLerArquivo() {
+//		try(DataInputStream in = new DataInputStream(new FileInputStream("C:\\Users\\uesr\\Desktop\\asdf.ipm"))) {
+//			MsgBuilder<Msg> msgBuilder = new MsgBuilder<>(Msg.class, Encode.EBCDIC);
+//			for (int len = in.readInt(); 0 < len; len = in.readInt()) {
+//				byte[] array = new  byte[len];
+//				in.read(array);
+//				Msg msg = msgBuilder.unpack(array);
+//				System.out.println(msg.toString());
+//			}
+//		} catch (EOFException e) {
+//
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (InstantiationException e) {
+//			e.printStackTrace();
+//		} catch (InvocationTargetException e) {
+//			e.printStackTrace();
+//		} catch (NoSuchMethodException e) {
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			e.printStackTrace();
+//		} catch (NotFoundMTIException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }
 
