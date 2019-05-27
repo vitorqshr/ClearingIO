@@ -7,14 +7,20 @@ import org.clearingio.iso8583.annotation.enumeration.DataRepresentation;
 import org.clearingio.iso8583.annotation.enumeration.Encode;
 import org.clearingio.iso8583.annotation.enumeration.Justification;
 import org.clearingio.iso8583.exception.NotFoundMTIException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.io.*;
 import java.lang.reflect.*;
+import java.math.BigInteger;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class MsgBuilder<T> {
+
+	private Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
 	private Encode encode;
 	private Class<T> type;
@@ -87,7 +93,7 @@ public class MsgBuilder<T> {
 			bitmap[i] = 0x00;
 			for(int j = 0; j < 8; j++) {
 				if(boolmap[ i * 8 + j ])
-					bitmap[i] |= ( 1 << ( 8 - j ) );
+					bitmap[i] |= ( 1 << ( 7 - j ) );
 			}
 		}
 		return bitmap;
@@ -97,7 +103,7 @@ public class MsgBuilder<T> {
 		boolean[] boolmap = new boolean[bitmap.length * 8];
 		for(int i = 0; i< bitmap.length; i++) {
 			for(int j = 0; j < 8; j++) {
-				boolmap[ i * 8 + j ] = ( ( 1 << ( 8 - j ) ) & bitmap[i]) > 0;
+				boolmap[ i * 8 + j ] = ( ( 1 << ( 7 - j ) ) & bitmap[i]) > 0;
 			}
 		}
 		return boolmap;
@@ -124,7 +130,7 @@ public class MsgBuilder<T> {
 			return;
 		}
 		if(type.equals(Number.class)) {
-			method.invoke(obj, Long.valueOf(new String(value, encode.getName())));
+			method.invoke(obj, new BigInteger(new String(value, encode.getName())));
 			return;
 		}
 		throw new ClassCastException("method=" + method.getName() + " type=" + type.getName() + " stringValue=" + string);
@@ -256,42 +262,29 @@ public class MsgBuilder<T> {
 		return bit.fixedLength();
 	}
 
-//	public static String toBitString(final byte[] b) {
-//		final char[] bits = new char[8 * b.length];
-//		for(int i = 0; i < b.length; i++) {
-//			final byte byteval = b[i];
-//			int bytei = i << 3;
-//			int mask = 0x1;
-//			for(int j = 0; j < 8; j++) {
-//				final int bitval = byteval & mask;
-//				if(bitval == 0) {
-//					bits[bytei + j] = '0';
-//				} else {
-//					bits[bytei + j] = '1';
-//				}
-//				mask <<= 1;
-//			}
-//		}
-//		return String.valueOf(bits);
-//	}
-
-//	public static void main(String... args) {
-//		Msg msg = new Msg();
-//		msg.setMessageTypeIdentifier(1240);
-//		msg.setPrimaryAccountNumber("5412345678909283");
-//		msg.setProcessingCode(003000);
-//		msg.setAmountTransaction(100);
-//		msg.setAmountReconciliation(100);
-//		msg.setAmountCardholderBilling(100);
-//		msg.setFunctionCode(200);
-//		msg.setDataRecord("teste");
-//		MsgBuilder<Msg> msgBuilder = new MsgBuilder(Msg.class, Encode.ASCII);
-//		try(DataOutputStream out = new DataOutputStream(new FileOutputStream("C:\\Users\\uesr\\Desktop\\asdf.ipm"))) {
-//			byte[] buf = msgBuilder.pack(msg);
-//			out.writeInt(buf.length);
-//			out.write(buf);
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//		}
-//	}
+	public static void main(String[] args) {
+		try(DataInputStream in = new DataInputStream(new FileInputStream("C:\\SIPPE\\adq\\master\\MCI.AR.T112.ADQ.BANCOOB.C.E0087996.D190517.T032428.A004.ipm"))) {
+			MsgBuilder<Msg> msgBuilder = new MsgBuilder<>(Msg.class, Encode.EBCDIC);
+			for (int len = in.readInt(); 0 < len; len = in.readInt()) {
+				byte[] array = new  byte[len];
+				in.read(array);
+				Msg msg = msgBuilder.unpack(array);
+				System.out.println(msg.toString());
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (NotFoundMTIException e) {
+			e.printStackTrace();
+		}
+	}
 }

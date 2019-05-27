@@ -6,6 +6,8 @@ import org.clearingio.iso8583.annotation.enumeration.DataLength;
 import org.clearingio.iso8583.annotation.enumeration.DataRepresentation;
 import org.clearingio.iso8583.annotation.enumeration.Justification;
 
+import java.util.Arrays;
+
 public class Msg {
 
 	@MTI
@@ -492,5 +494,55 @@ public class Msg {
 
 	public void setAdditionalData5(String additionalData5) {
 		this.additionalData5 = additionalData5;
+	}
+
+	@Override
+	public String toString() {
+		return "Msg{" +
+				"messageTypeIdentifier=" + messageTypeIdentifier +
+				", primaryAccountNumber='" + primaryAccountNumber + '\'' +
+				", processingCode=" + processingCode +
+				", amountTransaction=" + amountTransaction +
+				", amountReconciliation=" + amountReconciliation +
+				", amountCardholderBilling=" + amountCardholderBilling +
+				", conversionRateReconciliation=" + conversionRateReconciliation +
+				", conversionRateCardholderBilling=" + conversionRateCardholderBilling +
+				", dateAndTimeLocalTransaction='" + dateAndTimeLocalTransaction + '\'' +
+				", dateExpiration='" + dateExpiration + '\'' +
+				", pointOfServiceDataCode='" + pointOfServiceDataCode + '\'' +
+				", cardSequenceNumber=" + cardSequenceNumber +
+				", functionCode=" + functionCode +
+				", messageReasonCode=" + messageReasonCode +
+				", cardAcceptorBusinessCode=" + cardAcceptorBusinessCode +
+				", amountsOriginal=" + amountsOriginal +
+				", acquirerReferenceData=" + acquirerReferenceData +
+				", acquiringInstitutionIDCode=" + acquiringInstitutionIDCode +
+				", forwardingInstitutionIDCode=" + forwardingInstitutionIDCode +
+				", retrievalReferenceNumber='" + retrievalReferenceNumber + '\'' +
+				", approvalCode='" + approvalCode + '\'' +
+				", serviceCode=" + serviceCode +
+				", cardAcceptorTerminalID='" + cardAcceptorTerminalID + '\'' +
+				", cardAcceptorIDCode='" + cardAcceptorIDCode + '\'' +
+				", cardAcceptorNameLocation='" + cardAcceptorNameLocation + '\'' +
+				", additionalData='" + additionalData + '\'' +
+				", currencyCodeTransaction=" + currencyCodeTransaction +
+				", currencyCodeReconciliation=" + currencyCodeReconciliation +
+				", currencyCodeCardholderBilling=" + currencyCodeCardholderBilling +
+				", amountsAdditional='" + amountsAdditional + '\'' +
+				", integratedCircuitCard=" + Arrays.toString(integratedCircuitCard) +
+				", additionalData2='" + additionalData2 + '\'' +
+				", transactionLifeCycleID='" + transactionLifeCycleID + '\'' +
+				", messageNumber=" + messageNumber +
+				", dataRecord='" + dataRecord + '\'' +
+				", dateAction=" + dateAction +
+				", transactionDestinationInstitutionIDCode=" + transactionDestinationInstitutionIDCode +
+				", transactionOriginatorInstitutionIDCode=" + transactionOriginatorInstitutionIDCode +
+				", cardIssuerReferenceData=" + cardIssuerReferenceData +
+				", receivingInstitutionIDCode=" + receivingInstitutionIDCode +
+				", amountCurrencyConversionAssessment=" + amountCurrencyConversionAssessment +
+				", additionalData3='" + additionalData3 + '\'' +
+				", additionalData4='" + additionalData4 + '\'' +
+				", additionalData5='" + additionalData5 + '\'' +
+				'}';
 	}
 }
