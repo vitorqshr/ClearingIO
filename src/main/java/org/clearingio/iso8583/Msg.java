@@ -1,4 +1,4 @@
-package org.clearingio.iso8583.builder;
+package org.clearingio.iso8583;
 
 import org.clearingio.iso8583.annotation.Bit;
 import org.clearingio.iso8583.annotation.MTI;
@@ -17,7 +17,7 @@ public class Msg {
 	private String primaryAccountNumber;
 
 	@Bit(value = 3, fixedLength = 6, justification = Justification.LEFT, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Processing Code n-6")
-	private Number processingCode;
+	private String processingCode;
 
 	@Bit(value = 4, fixedLength = 12, justification = Justification.LEFT, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Amount, Transaction n-12")
 	private Number amountTransaction;
@@ -160,11 +160,11 @@ public class Msg {
 		this.primaryAccountNumber = primaryAccountNumber;
 	}
 
-	public Number getProcessingCode() {
+	public String getProcessingCode() {
 		return processingCode;
 	}
 
-	public void setProcessingCode(Number processingCode) {
+	public void setProcessingCode(String processingCode) {
 		this.processingCode = processingCode;
 	}
 

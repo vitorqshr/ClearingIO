@@ -1,13 +1,10 @@
 package org.clearingio.iso8583.builder;
 
+import org.clearingio.iso8583.Msg;
 import org.clearingio.iso8583.annotation.enumeration.Encode;
 import static org.junit.Assert.*;
 
-import org.clearingio.iso8583.exception.NotFoundMTIException;
 import org.junit.Test;
-
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 
 public class MsgBuildTest {
 

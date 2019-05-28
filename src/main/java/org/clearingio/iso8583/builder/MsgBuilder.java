@@ -10,13 +10,13 @@ import org.clearingio.iso8583.exception.NotFoundMTIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.io.*;
 import java.lang.reflect.*;
 import java.math.BigInteger;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 public class MsgBuilder<T> {
 
@@ -56,6 +56,7 @@ public class MsgBuilder<T> {
 		value = padding(value, bit.fixedLength(), bit.padding(), bit.justification());
 		value = dataRepresentation(value, bit.dataRepresentation());
 		value = dataLength(value, bit.dataLength());
+		LOGGER.debug(value);
 		out.write(value.getBytes(encode.getName()));
 	}
 
@@ -65,6 +66,7 @@ public class MsgBuilder<T> {
 			if(field.isAnnotationPresent(MTI.class)) {
 				String string = get(field.getName(), obj);
 				string = padding(string, 4, '0', Justification.LEFT);
+				LOGGER.debug(string);
 				return string.getBytes(encode.getName());
 			}
 		}
@@ -83,6 +85,7 @@ public class MsgBuilder<T> {
 					boolmap[0] = true;
 			}
 		}
+		LOGGER.debug(Arrays.toString(boolmap));
 		return parseBitmap(boolmap);
 	}
 
@@ -106,25 +109,30 @@ public class MsgBuilder<T> {
 				boolmap[ i * 8 + j ] = ( ( 1 << ( 7 - j ) ) & bitmap[i]) > 0;
 			}
 		}
+		LOGGER.debug(Arrays.toString(boolmap));
 		return boolmap;
 	}
 
-	public String get(String name, T obj)
+	protected String get(String name, T obj)
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		name = name.substring(0,1).toUpperCase().concat(name.substring(1));
+		LOGGER.debug(name);
 		Method method = obj.getClass().getMethod("get" + name);
 		Object ret = method.invoke(obj);
 		return ret != null ? String.valueOf(ret): null;
 	}
-	public void set(String name, T obj, Class type, byte[] value)
+	protected void set(String name, T obj, Class type, byte[] value)
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, UnsupportedEncodingException {
 		name = name.substring(0,1).toUpperCase().concat(name.substring(1));
+		LOGGER.debug(name);
 		Method method = obj.getClass().getMethod("set" + name, type);
 		if(type.equals(byte[].class)) {
+			LOGGER.debug(Arrays.toString(value));
 			method.invoke(obj, value);
 			return;
 		}
 		String string = new String(value, encode.getName());
+		LOGGER.debug(string);
 		if(type.equals(String.class)) {
 			method.invoke(obj, string);
 			return;
@@ -165,7 +173,7 @@ public class MsgBuilder<T> {
 		}
 	}
 
-	public void read(DataInputStream in, int bit, byte[] value)
+	protected void read(DataInputStream in, int bit, byte[] value)
 			throws IOException {
 		if(in.read(value) == -1)
 			throw new IOException("End of file unexpected bit " + bit + " not found data or partial");
@@ -195,11 +203,11 @@ public class MsgBuilder<T> {
 		throw new NotFoundMTIException();
 	}
 
-	private String padding(int value, int lentgh, char padding, Justification justification) {
+	protected String padding(int value, int lentgh, char padding, Justification justification) {
 		return padding(String.valueOf(value), lentgh, padding, justification);
 	}
 
-	private String padding(String value, int lentgh, char padding, Justification justification) {
+	protected String padding(String value, int lentgh, char padding, Justification justification) {
 		for(int i = value.length(); i < lentgh; i++) {
 			if(justification.equals(Justification.LEFT)) {
 				value = padding + value;
@@ -210,7 +218,7 @@ public class MsgBuilder<T> {
 		return value;
 	}
 
-	private String dataRepresentation(String value, DataRepresentation dataRepresentation)
+	protected String dataRepresentation(String value, DataRepresentation dataRepresentation)
 			throws ParseException {
 		value = Normalizer.normalize(value, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
 		if(dataRepresentation.equals(DataRepresentation.ALPHABETIC_CHARACTERS)) {
@@ -238,7 +246,7 @@ public class MsgBuilder<T> {
 		return value;
 	}
 
-	private String dataLength(String value, DataLength dataLength) {
+	protected String dataLength(String value, DataLength dataLength) {
 		if(dataLength.equals(DataLength.LLVAR)) {
 			String llvar = padding(value.length(), 2, '0', Justification.LEFT);
 			value = llvar + value;
@@ -246,10 +254,11 @@ public class MsgBuilder<T> {
 			String lllvar = padding(value.length(), 3, '0', Justification.LEFT);
 			value = lllvar + value;
 		}
+		LOGGER.debug(value);
 		return value;
 	}
 
-	private int dataLength(DataInputStream in, Bit bit) throws IOException {
+	protected int dataLength(DataInputStream in, Bit bit) throws IOException {
 		if(bit.dataLength().equals(DataLength.LLVAR)) {
 			byte[] llvar = new byte[2];
 			read(in, bit.value(), llvar);
