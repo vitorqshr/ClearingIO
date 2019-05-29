@@ -149,22 +149,27 @@ public class MsgBuilder<T> {
 		T obj = type.newInstance();
 		try(ByteArrayInputStream array = new ByteArrayInputStream(buf);
 			DataInputStream in = new DataInputStream(array)) {
+			// Message Type Identifier
 			byte[] mti = new byte[4];
 			read(in, -1, mti);
 			unpackMTI(obj, mti);
+			// Reader bitmap primary
 			byte[] bitmapPrimary = new byte[8];
 			read(in, 0, bitmapPrimary);
 			boolean[] boolmapPrimary = parseBitmap(bitmapPrimary);
+			// Reader bitmap secondary
 			boolean[] boolmapSecondary = new boolean[8];
 			if(boolmapPrimary[0]) {
 				byte[] bitmapSecondary = new byte[8];
 				read(in, 1, bitmapSecondary);
 				boolmapSecondary =  parseBitmap(bitmapSecondary);
 			}
+			// Reader bits primary
 			for (int i = 1; i < boolmapPrimary.length; i++) {
 				if(!boolmapPrimary[i]) continue;
 				unpackBit(in, obj, i);
 			}
+			// Reader bits secondary
 			for (int i = 0; i < boolmapSecondary.length; i++) {
 				if(!boolmapSecondary[i]) continue;
 				unpackBit(in, obj, i + 64);
