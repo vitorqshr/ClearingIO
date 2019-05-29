@@ -53,8 +53,8 @@ public class MsgBuilder<T> {
 
 	private void packBit(DataOutputStream out, Bit bit, String value)
 			throws IOException, ParseException {
-		value = padding(value, bit.fixedLength(), bit.padding(), bit.justification(), bit.minimumLength(), bit.maximumLength());
 		value = dataRepresentation(value, bit.dataRepresentation());
+		value = padding(value, bit.fixedLength(), bit.padding(), bit.justification(), bit.minimumLength(), bit.maximumLength());
 		value = dataLength(value, bit.dataLength());
 		LOGGER.debug(value);
 		out.write(value.getBytes(encode.getName()));
