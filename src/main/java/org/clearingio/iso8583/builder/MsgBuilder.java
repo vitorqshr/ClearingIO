@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 public class MsgBuilder<T> {
 
-	private Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	private static Logger LOGGER = LoggerFactory.getLogger(MsgBuilder.class);
 
 	private Encode encode;
 	private Class<T> type;
@@ -53,7 +53,7 @@ public class MsgBuilder<T> {
 
 	private void packBit(DataOutputStream out, Bit bit, String value)
 			throws IOException, ParseException {
-		value = padding(value, bit.fixedLength(), bit.padding(), bit.justification());
+		value = padding(value, bit.fixedLength(), bit.padding(), bit.justification(), bit.minimumLength(), bit.maximumLength());
 		value = dataRepresentation(value, bit.dataRepresentation());
 		value = dataLength(value, bit.dataLength());
 		LOGGER.debug(value);
@@ -203,19 +203,27 @@ public class MsgBuilder<T> {
 		throw new NotFoundMTIException();
 	}
 
-	protected String padding(int value, int lentgh, char padding, Justification justification) {
-		return padding(String.valueOf(value), lentgh, padding, justification);
+	public static String padding(int value, int lentgh, char padding, Justification justification) {
+		return padding(value, lentgh, padding, justification, 0, 0);
 	}
 
-	protected String padding(String value, int lentgh, char padding, Justification justification) {
-		for(int i = value.length(); i < lentgh; i++) {
+	public static String padding(int value, int lentgh, char padding, Justification justification, int minimumLength, int maximumLength) {
+		return padding(String.valueOf(value), lentgh, padding, justification, minimumLength, maximumLength);
+	}
+
+	public static String padding(String value, int lentgh, char padding, Justification justification) {
+		return padding(value, lentgh, padding, justification, 0, 0);
+	}
+
+	public static String padding(String value, int lentgh, char padding, Justification justification, int minimumLength, int maximumLength) {
+		for(int i = value.length(); i < (lentgh | minimumLength); i++) {
 			if(justification.equals(Justification.LEFT)) {
 				value = padding + value;
 			} else if(justification.equals(Justification.RIGHT)) {
 				value = value + padding;
 			}
 		}
-		return value;
+		return value.length() > (lentgh | maximumLength)? value.substring(0, (lentgh | maximumLength)): value;
 	}
 
 	protected String dataRepresentation(String value, DataRepresentation dataRepresentation)
@@ -246,7 +254,7 @@ public class MsgBuilder<T> {
 		return value;
 	}
 
-	protected String dataLength(String value, DataLength dataLength) {
+	public static String dataLength(String value, DataLength dataLength) {
 		if(dataLength.equals(DataLength.LLVAR)) {
 			String llvar = padding(value.length(), 2, '0', Justification.LEFT);
 			value = llvar + value;
