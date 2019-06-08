@@ -127,7 +127,7 @@ public class Msg {
 	@Bit(value = 95, dataLength = DataLength.LLVAR, maximumLength = 10, dataRepresentation = DataRepresentation.NUMERIC, name = "Card Issuer Reference Data n-10; LLVAR")
 	private Number cardIssuerReferenceData;
 
-	@Bit(value = 100, dataLength = DataLength.LLVAR, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, name = "Receiving Institution ID Code n...11; LLVAR")
+	@Bit(value = 100, dataLength = DataLength.LLVAR, minimumLength = 6, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, name = "Receiving Institution ID Code n...11; LLVAR")
 	private Number receivingInstitutionIDCode;
 
 	@Bit(value = 111, dataLength = DataLength.LLLVAR, maximumLength = 12, dataRepresentation = DataRepresentation.NUMERIC, name = "Amount, Currency Conversion Assessment n-12; LLLVAR")

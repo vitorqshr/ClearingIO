@@ -38,19 +38,18 @@ public class MsgIpm extends Msg {
 
 	public void setCardAcceptorNameLocation(String cardAcceptorName, String cardAcceptorStreetAddress, String cardAcceptorCity, String cardAcceptorPostalZIPCode, String cardAcceptorStateProvinceorRegionCode, String cardAcceptorCountryCode) {
 		// Subfield 1
-		cardAcceptorName = MsgBuilder.padding(cardAcceptorName, 0, ' ', Justification.RIGHT, 22, 22);
+		cardAcceptorName = MsgBuilder.padding(cardAcceptorName, 0, ' ', Justification.RIGHT, 0, 22);
 		cardAcceptorName = MsgBuilder.dataLength(cardAcceptorName, DataLength.LLVAR);
 
 		// Subfield 2
-		if(cardAcceptorStreetAddress != null) {
-			cardAcceptorStreetAddress = MsgBuilder.padding(cardAcceptorStreetAddress, 0, ' ', Justification.RIGHT, 48, 48);
-			cardAcceptorStreetAddress = MsgBuilder.dataLength(cardAcceptorStreetAddress, DataLength.LLVAR);
-		} else {
+		if(cardAcceptorStreetAddress == null || cardAcceptorStreetAddress.trim().isEmpty()) {
 			cardAcceptorStreetAddress = "UNKNOWN";
 		}
+		cardAcceptorStreetAddress = MsgBuilder.padding(cardAcceptorStreetAddress, 0, ' ', Justification.RIGHT,0, 48);
+		cardAcceptorStreetAddress = MsgBuilder.dataLength(cardAcceptorStreetAddress, DataLength.LLVAR);
 
 		// Subfield 3
-		cardAcceptorCity = MsgBuilder.padding(cardAcceptorCity, 0, ' ', Justification.RIGHT, 22, 13);
+		cardAcceptorCity = MsgBuilder.padding(cardAcceptorCity, 0, ' ', Justification.RIGHT, 0, 13);
 		cardAcceptorCity = MsgBuilder.dataLength(cardAcceptorCity, DataLength.LLLVAR);
 
 		// Subfield 4
@@ -82,23 +81,23 @@ public class MsgIpm extends Msg {
 		dto.setCardAcceptorStreetAddress(this.getCardAcceptorNameLocation().substring(endOfCardAcceptorNameLocation + 2, endOfCardAcceptorStreetAddress));
 
 		// Subfield 3
-		int endOfcardAcceptorCity = this.getCardAcceptorNameLocation().indexOf('\\', endOfCardAcceptorStreetAddress + 3);
-		dto.setCardAcceptorStreetAddress(this.getCardAcceptorNameLocation().substring(endOfCardAcceptorStreetAddress + 3, endOfcardAcceptorCity));
+		int endOfCardAcceptorCity = this.getCardAcceptorNameLocation().indexOf('\\', endOfCardAcceptorStreetAddress + 3);
+		dto.setCardAcceptorStreetAddress(this.getCardAcceptorNameLocation().substring(endOfCardAcceptorStreetAddress + 3, endOfCardAcceptorCity));
 
 		// Subfield 4
-		if(this.getCardAcceptorNameLocation().length() < endOfcardAcceptorCity + 10)
+		if(this.getCardAcceptorNameLocation().length() < endOfCardAcceptorCity + 10)
 			return dto;
-		dto.setCardAcceptorPostalZIPCode(this.getCardAcceptorNameLocation().substring(endOfcardAcceptorCity, endOfcardAcceptorCity + 10));
+		dto.setCardAcceptorPostalZIPCode(this.getCardAcceptorNameLocation().substring(endOfCardAcceptorCity, endOfCardAcceptorCity + 10));
 
 		// Subfield 5
-		if(this.getCardAcceptorNameLocation().length() < endOfcardAcceptorCity + 13)
+		if(this.getCardAcceptorNameLocation().length() < endOfCardAcceptorCity + 13)
 			return dto;
-		dto.setCardAcceptorStateProvinceorRegionCode(this.getCardAcceptorNameLocation().substring(endOfcardAcceptorCity + 10, endOfcardAcceptorCity + 13));
+		dto.setCardAcceptorStateProvinceorRegionCode(this.getCardAcceptorNameLocation().substring(endOfCardAcceptorCity + 10, endOfCardAcceptorCity + 13));
 
 		// Subfield 6
-		if(this.getCardAcceptorNameLocation().length() < endOfcardAcceptorCity + 16)
+		if(this.getCardAcceptorNameLocation().length() < endOfCardAcceptorCity + 16)
 			return dto;
-		dto.setCardAcceptorCountryCode(this.getCardAcceptorNameLocation().substring(endOfcardAcceptorCity + 13, endOfcardAcceptorCity + 16));
+		dto.setCardAcceptorCountryCode(this.getCardAcceptorNameLocation().substring(endOfCardAcceptorCity + 13, endOfCardAcceptorCity + 16));
 
 		return dto;
 	}
