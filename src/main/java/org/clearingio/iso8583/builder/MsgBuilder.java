@@ -37,9 +37,13 @@ public class MsgBuilder<T> {
 			throw new NotFoundMTIException();
 	}
 
+	/**
+	 * Define first superclass and before subscribe if exist a class overrider field
+	 */
 	private void defFields(Class<?> tClass) {
-		if(tClass.equals(Object.class))
-			return;
+		if(!tClass.equals(Object.class)) {
+			defFields(tClass.getSuperclass());
+		}
 		Field[] declaredFields = tClass.getDeclaredFields();
 		for(Field field : declaredFields) {
 			if(field.isAnnotationPresent(MTI.class)) {
@@ -49,7 +53,6 @@ public class MsgBuilder<T> {
 				fieldsBit[bit.value() - 1] = field;
 			}
 		}
-		defFields(tClass.getSuperclass());
 	}
 
 	public byte[] pack(T obj)
@@ -130,7 +133,7 @@ public class MsgBuilder<T> {
 		return boolmap;
 	}
 
-	protected String get(String name, T obj)
+	private String get(String name, T obj)
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		name = name.substring(0,1).toUpperCase().concat(name.substring(1));
 		LOGGER.debug(name);
@@ -138,7 +141,7 @@ public class MsgBuilder<T> {
 		Object ret = method.invoke(obj);
 		return ret != null ? String.valueOf(ret): null;
 	}
-	protected void set(String name, T obj, Class type, byte[] value)
+	private void set(String name, T obj, Class type, byte[] value)
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, UnsupportedEncodingException {
 		name = name.substring(0,1).toUpperCase().concat(name.substring(1));
 		LOGGER.debug(name);
@@ -195,7 +198,7 @@ public class MsgBuilder<T> {
 		}
 	}
 
-	protected void read(DataInputStream in, int bit, byte[] value)
+	private void read(DataInputStream in, int bit, byte[] value)
 			throws IOException {
 		if(in.read(value) == -1)
 			throw new IOException("End of file unexpected bit " + bit + " not found data or partial");
