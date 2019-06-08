@@ -165,7 +165,7 @@ public class MsgBuilder<T> {
 	}
 
 	public T unpack(byte[] buf)
-			throws IllegalAccessException, InstantiationException, IOException, NoSuchMethodException, NotFoundMTIException, InvocationTargetException {
+			throws IllegalAccessException, InstantiationException, IOException, NoSuchMethodException, InvocationTargetException {
 		T obj = type.newInstance();
 		try(ByteArrayInputStream array = new ByteArrayInputStream(buf);
 			DataInputStream in = new DataInputStream(array)) {
@@ -217,7 +217,7 @@ public class MsgBuilder<T> {
 	}
 
 	private void unpackMTI(T obj, byte[] mti)
-			throws IllegalAccessException, UnsupportedEncodingException, NotFoundMTIException, NoSuchMethodException, InvocationTargetException {
+			throws IllegalAccessException, UnsupportedEncodingException, NoSuchMethodException, InvocationTargetException {
 		set(fieldMTI.getName(), obj, fieldMTI.getType(), mti);
 	}
 
