@@ -13,7 +13,7 @@ public class Msg {
 	@MTI
 	private Number messageTypeIdentifier;
 
-	@Bit(value = 2, dataLength = DataLength.LLVAR, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', fixedLength = 6, maximumLength = 19, name = "Primary Account Number (PAN) n...19; LLVAR")
+	@Bit(value = 2, dataLength = DataLength.LLVAR, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', fixedLength = 6, maximumLength = 19, justification = Justification.LEFT, name = "Primary Account Number (PAN) n...19; LLVAR")
 	private String primaryAccountNumber;
 
 	@Bit(value = 3, fixedLength = 6, justification = Justification.LEFT, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Processing Code n-6")
@@ -121,7 +121,7 @@ public class Msg {
 	@Bit(value = 93, dataLength = DataLength.LLVAR, fixedLength = 6, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, justification = Justification.LEFT, padding = '0', name = "Transaction Destination Institution ID Code n...11; LLVAR")
 	private Number transactionDestinationInstitutionIDCode;
 
-	@Bit(value = 94, dataLength = DataLength.LLVAR, fixedLength = 11, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, justification = Justification.LEFT, padding = '0', name = "Transaction Originator Institution ID Code n...11; LLVAR")
+	@Bit(value = 94, dataLength = DataLength.LLVAR, fixedLength = 6, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, justification = Justification.LEFT, padding = '0', name = "Transaction Originator Institution ID Code n...11; LLVAR")
 	private Number transactionOriginatorInstitutionIDCode;
 
 	@Bit(value = 95, dataLength = DataLength.LLVAR, maximumLength = 10, dataRepresentation = DataRepresentation.NUMERIC, name = "Card Issuer Reference Data n-10; LLVAR")
