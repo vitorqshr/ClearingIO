@@ -79,7 +79,7 @@ public class MsgBuilder<T> {
 	private void packBit(DataOutputStream out, Bit bit, String value)
 			throws IOException, ParseException {
 		value = dataRepresentation(value, bit.dataRepresentation());
-		value = padding(value, bit.fixedLength(), bit.padding(), bit.justification(), bit.minimumLength(), bit.maximumLength());
+		value = padding(value, bit.fixedLength(), bit.padding(), bit.justification(), bit.maximumLength());
 		value = dataLength(value, bit.dataLength());
 		LOGGER.debug(value);
 		out.write(value.getBytes(encode.getName()));
@@ -222,22 +222,22 @@ public class MsgBuilder<T> {
 	}
 
 	public static String padding(int value, int lentgh, char padding, Justification justification) {
-		return padding(value, lentgh, padding, justification, 0, 0);
+		return padding(value, lentgh, padding, justification, 0);
 	}
 
-	public static String padding(int value, int lentgh, char padding, Justification justification, int minimumLength, int maximumLength) {
-		return padding(String.valueOf(value), lentgh, padding, justification, minimumLength, maximumLength);
+	public static String padding(int value, int lentgh, char padding, Justification justification, int maximumLength) {
+		return padding(String.valueOf(value), lentgh, padding, justification, maximumLength);
 	}
 
 	public static String padding(String value, int lentgh, char padding, Justification justification) {
-		return padding(value, lentgh, padding, justification, 0, 0);
+		return padding(value, lentgh, padding, justification, 0);
 	}
 
-	public static String padding(String value, int lentgh, char padding, Justification justification, int minimumLength, int maximumLength) {
-		for(int i = value.length(); i < (lentgh | minimumLength); i++) {
-			if(justification.equals(Justification.LEFT)) {
+	public static String padding(String value, int lentgh, char padding, Justification justification, int maximumLength) {
+		for(int i = value.length(); i < lentgh; i++) {
+			if(justification.equals(Justification.LEFT) || (justification.equals(Justification.NONE) && padding == '0')) {
 				value = padding + value;
-			} else if(justification.equals(Justification.RIGHT)) {
+			} else if(justification.equals(Justification.RIGHT) || (justification.equals(Justification.NONE) && padding == ' ')) {
 				value = value + padding;
 			}
 		}
@@ -258,7 +258,7 @@ public class MsgBuilder<T> {
 		} else if(dataRepresentation.equals(DataRepresentation.ALPHABETIC_NUMERIC)) {
 			value = value.replaceAll("[^a-zA-Z0-9]", "");
 		} else if(dataRepresentation.equals(DataRepresentation.ALPHABETIC_NUMERIC_SPACE)) {
-			value = value.replaceAll("[^a-zA-Z0-9\\s]", "");
+			value = value.replaceAll("[^a-zA-Z0-9\\s\\\\]", "");
 		} else if(dataRepresentation.equals(DataRepresentation.YYMMDDhhmmss)) {
 			value = value.replaceAll("[^0-9]", "");
 			new SimpleDateFormat("yyMMddHHmmss").parse(value);

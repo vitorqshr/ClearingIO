@@ -38,18 +38,18 @@ public class MsgIpm extends Msg {
 
 	public void setCardAcceptorNameLocation(String cardAcceptorName, String cardAcceptorStreetAddress, String cardAcceptorCity, String cardAcceptorPostalZIPCode, String cardAcceptorStateProvinceorRegionCode, String cardAcceptorCountryCode) {
 		// Subfield 1
-		cardAcceptorName = MsgBuilder.padding(cardAcceptorName, 0, ' ', Justification.RIGHT, 0, 22);
+		cardAcceptorName = MsgBuilder.padding(cardAcceptorName, 0, ' ', Justification.RIGHT, 22);
 		cardAcceptorName = MsgBuilder.dataLength(cardAcceptorName, DataLength.LLVAR);
 
 		// Subfield 2
 		if(cardAcceptorStreetAddress == null || cardAcceptorStreetAddress.trim().isEmpty()) {
 			cardAcceptorStreetAddress = "UNKNOWN";
 		}
-		cardAcceptorStreetAddress = MsgBuilder.padding(cardAcceptorStreetAddress, 0, ' ', Justification.RIGHT,0, 48);
+		cardAcceptorStreetAddress = MsgBuilder.padding(cardAcceptorStreetAddress, 0, ' ', Justification.RIGHT, 48);
 		cardAcceptorStreetAddress = MsgBuilder.dataLength(cardAcceptorStreetAddress, DataLength.LLVAR);
 
 		// Subfield 3
-		cardAcceptorCity = MsgBuilder.padding(cardAcceptorCity, 0, ' ', Justification.RIGHT, 0, 13);
+		cardAcceptorCity = MsgBuilder.padding(cardAcceptorCity, 0, ' ', Justification.RIGHT, 13);
 		cardAcceptorCity = MsgBuilder.dataLength(cardAcceptorCity, DataLength.LLLVAR);
 
 		// Subfield 4
