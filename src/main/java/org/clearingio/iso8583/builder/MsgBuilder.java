@@ -82,6 +82,8 @@ public class MsgBuilder<T> {
 		value = padding(value, bit.fixedLength(), bit.padding(), bit.justification(), bit.maximumLength());
 		value = dataLength(value, bit.dataLength());
 		LOGGER.debug(value);
+		if(value.length() < bit.fixedLength())
+			throw new RuntimeException("value=" + value + " value.length()=" + value.length() + " bit.fixedLength()=" + bit.fixedLength());
 		out.write(value.getBytes(encode.getName()));
 	}
 
@@ -241,7 +243,11 @@ public class MsgBuilder<T> {
 				value = value + padding;
 			}
 		}
-		return value.length() > (lentgh | maximumLength)? value.substring(0, (lentgh | maximumLength)): value;
+		return maximumLength > lentgh? substring(value, maximumLength): substring(value, lentgh);
+	}
+
+	private static String substring(String str, int lentgh) {
+		return str.length() > lentgh? str.substring(0, lentgh): str;
 	}
 
 	protected String dataRepresentation(String value, DataRepresentation dataRepresentation)
@@ -268,6 +274,12 @@ public class MsgBuilder<T> {
 		} else if(dataRepresentation.equals(DataRepresentation.YYMM)) {
 			value = value.replaceAll("[^0-9]", "");
 			new SimpleDateFormat("yyMM").parse(value);
+		} else if(dataRepresentation.equals(DataRepresentation.MMDD)) {
+			value = value.replaceAll("[^0-9]", "");
+			new SimpleDateFormat("MMdd").parse(value);
+		} else if(dataRepresentation.equals(DataRepresentation.MMDDhhmmss)) {
+			value = value.replaceAll("[^0-9]", "");
+			new SimpleDateFormat("MMddHHmmss").parse(value);
 		}
 		return value;
 	}

@@ -10,5 +10,7 @@ public enum DataRepresentation {
 	BYTE, /* binary representation of data in eight-bit bytes */
 	YYMMDDhhmmss,
 	YYMMDD,
-	YYMM
+	YYMM,
+	MMDD,
+	MMDDhhmmss
 }

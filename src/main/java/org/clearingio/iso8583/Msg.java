@@ -61,7 +61,7 @@ public class Msg {
 	@Bit(value = 31, dataLength = DataLength.LLVAR, justification = Justification.LEFT, maximumLength = 23, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Acquirer Reference Data n-23; LLVAR")
 	private Number acquirerReferenceData;
 
-	@Bit(value = 32, dataLength = DataLength.LLVAR, justification = Justification.LEFT, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Acquiring Institution ID Code n...11; LLVAR")
+	@Bit(value = 32, dataLength = DataLength.LLVAR, justification = Justification.LEFT, fixedLength = 11, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Acquiring Institution ID Code n...11; LLVAR")
 	private Number acquiringInstitutionIDCode;
 
 	@Bit(value = 33, dataLength = DataLength.LLVAR, justification = Justification.LEFT, fixedLength = 11, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Forwarding Institution ID Code n...11; LLVAR")
