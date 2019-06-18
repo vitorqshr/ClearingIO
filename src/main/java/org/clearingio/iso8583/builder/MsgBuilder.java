@@ -24,14 +24,39 @@ public class MsgBuilder<T> {
 
 	private Encode encode;
 	private Class<T> type;
+	private Field fieldMTI;
+	private Field[] fieldsBit;
 
-	public MsgBuilder(Class<T> type, Encode encode) {
+	public MsgBuilder(Class<T> type, Encode encode) throws NotFoundMTIException {
 		this.type = type;
 		this.encode = encode;
+
+		fieldsBit = new Field[128];
+		defFields(type);
+		if(fieldMTI == null || !fieldMTI.isAnnotationPresent(MTI.class))
+			throw new NotFoundMTIException();
+	}
+
+	/**
+	 * Define first superclass and before subscribe if exist a class overrider field
+	 */
+	private void defFields(Class<?> tClass) {
+		if(!tClass.equals(Object.class)) {
+			defFields(tClass.getSuperclass());
+		}
+		Field[] declaredFields = tClass.getDeclaredFields();
+		for(Field field : declaredFields) {
+			if(field.isAnnotationPresent(MTI.class)) {
+				fieldMTI = field;
+			} else if(field.isAnnotationPresent(Bit.class)) {
+				Bit bit = field.getAnnotation(Bit.class);
+				fieldsBit[bit.value() - 1] = field;
+			}
+		}
 	}
 
 	public byte[] pack(T obj)
-			throws IOException, IllegalAccessException, NotFoundMTIException, NoSuchMethodException, InvocationTargetException, ParseException {
+			throws IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ParseException {
 		try(ByteArrayOutputStream array = new ByteArrayOutputStream(0);
 			DataOutputStream out = new DataOutputStream(array)) {
 			// Message Type Identifier
@@ -39,11 +64,11 @@ public class MsgBuilder<T> {
 			// Writer bitmap
 			out.write(packBitmap(obj));
 			// Writer bits
-			for( Field field : obj.getClass().getDeclaredFields() ) {
-				if(!field.isAnnotationPresent(Bit.class)) continue;
-				Bit bit = field.getAnnotation(Bit.class);
-				String value = get(field.getName(), obj);
+			for(int i = 0; i < 128; i++) {
+				if(fieldsBit[i] == null || !fieldsBit[i].isAnnotationPresent(Bit.class)) continue;
+				String value = get(fieldsBit[i].getName(), obj);
 				if(value == null) continue;
+				Bit bit = fieldsBit[i].getAnnotation(Bit.class);
 				packBit(out, bit, value);
 			}
 			out.flush();
@@ -54,34 +79,31 @@ public class MsgBuilder<T> {
 	private void packBit(DataOutputStream out, Bit bit, String value)
 			throws IOException, ParseException {
 		value = dataRepresentation(value, bit.dataRepresentation());
-		value = padding(value, bit.fixedLength(), bit.padding(), bit.justification(), bit.minimumLength(), bit.maximumLength());
+		value = padding(value, bit.fixedLength(), bit.padding(), bit.justification(), bit.maximumLength());
 		value = dataLength(value, bit.dataLength());
 		LOGGER.debug(value);
+		if(value.length() < bit.fixedLength())
+			throw new RuntimeException("value=" + value + " value.length()=" + value.length() + " bit.fixedLength()=" + bit.fixedLength());
 		out.write(value.getBytes(encode.getName()));
 	}
 
 	private byte[] packMTI(T obj)
-			throws IllegalAccessException, UnsupportedEncodingException, NotFoundMTIException, NoSuchMethodException, InvocationTargetException {
-		for( Field field : obj.getClass().getDeclaredFields() ) {
-			if(field.isAnnotationPresent(MTI.class)) {
-				String string = get(field.getName(), obj);
-				string = padding(string, 4, '0', Justification.LEFT);
-				LOGGER.debug(string);
-				return string.getBytes(encode.getName());
-			}
-		}
-		throw new NotFoundMTIException();
+			throws IllegalAccessException, UnsupportedEncodingException, NoSuchMethodException, InvocationTargetException {
+		String string = get(fieldMTI.getName(), obj);
+		string = padding(string, 4, '0', Justification.LEFT);
+		LOGGER.debug(string);
+		return string.getBytes(encode.getName());
 	}
 
 	private byte[] packBitmap(T obj)
 			throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		boolean[] boolmap = new boolean[128];
-		for( Field field : obj.getClass().getDeclaredFields() ) {
-			if(field.isAnnotationPresent(Bit.class)) {
+		for( Field field : fieldsBit ) {
+			if(field != null && field.isAnnotationPresent(Bit.class)) {
 				Bit bit = field.getAnnotation(Bit.class);
 				String ret = get(field.getName(), obj);
 				boolmap[ bit.value() - 1 ] = (ret != null);
-				if(ret != null && bit.value() >= 64)
+				if(ret != null && bit.value() > 64)
 					boolmap[0] = true;
 			}
 		}
@@ -113,7 +135,7 @@ public class MsgBuilder<T> {
 		return boolmap;
 	}
 
-	protected String get(String name, T obj)
+	private String get(String name, T obj)
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		name = name.substring(0,1).toUpperCase().concat(name.substring(1));
 		LOGGER.debug(name);
@@ -121,7 +143,7 @@ public class MsgBuilder<T> {
 		Object ret = method.invoke(obj);
 		return ret != null ? String.valueOf(ret): null;
 	}
-	protected void set(String name, T obj, Class type, byte[] value)
+	private void set(String name, T obj, Class type, byte[] value)
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, UnsupportedEncodingException {
 		name = name.substring(0,1).toUpperCase().concat(name.substring(1));
 		LOGGER.debug(name);
@@ -138,14 +160,14 @@ public class MsgBuilder<T> {
 			return;
 		}
 		if(type.equals(Number.class)) {
-			method.invoke(obj, new BigInteger(new String(value, encode.getName())));
+			method.invoke(obj, new BigInteger(string));
 			return;
 		}
 		throw new ClassCastException("method=" + method.getName() + " type=" + type.getName() + " stringValue=" + string);
 	}
 
 	public T unpack(byte[] buf)
-			throws IllegalAccessException, InstantiationException, IOException, NoSuchMethodException, NotFoundMTIException, InvocationTargetException {
+			throws IllegalAccessException, InstantiationException, IOException, NoSuchMethodException, InvocationTargetException {
 		T obj = type.newInstance();
 		try(ByteArrayInputStream array = new ByteArrayInputStream(buf);
 			DataInputStream in = new DataInputStream(array)) {
@@ -178,7 +200,7 @@ public class MsgBuilder<T> {
 		}
 	}
 
-	protected void read(DataInputStream in, int bit, byte[] value)
+	private void read(DataInputStream in, int bit, byte[] value)
 			throws IOException {
 		if(in.read(value) == -1)
 			throw new IOException("End of file unexpected bit " + bit + " not found data or partial");
@@ -186,49 +208,46 @@ public class MsgBuilder<T> {
 
 	private void unpackBit(DataInputStream in, T obj, int i)
 			throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-		for( Field field : obj.getClass().getDeclaredFields() ) {
-			if(!field.isAnnotationPresent(Bit.class)) continue;
-			Bit bit = field.getAnnotation(Bit.class);
-			if( bit.value() != ( i + 1 ) ) continue;
-			int lentgh = dataLength(in, bit);
-			byte[] value = new byte[lentgh];
-			read(in, bit.value(), value);
-			set(field.getName(), obj, field.getType(), value);
-		}
+		if( fieldsBit[i] == null || !fieldsBit[i].isAnnotationPresent(Bit.class)) return;
+		Bit bit = fieldsBit[i].getAnnotation(Bit.class);
+		LOGGER.debug("Bit=" + bit.value());
+		int lentgh = dataLength(in, bit);
+		LOGGER.debug("length=" + lentgh);
+		byte[] value = new byte[lentgh];
+		read(in, bit.value(), value);
+		set(fieldsBit[i].getName(), obj, fieldsBit[i].getType(), value);
 	}
 
 	private void unpackMTI(T obj, byte[] mti)
-			throws IllegalAccessException, UnsupportedEncodingException, NotFoundMTIException, NoSuchMethodException, InvocationTargetException {
-		for( Field field : obj.getClass().getDeclaredFields() ) {
-			if(field.isAnnotationPresent(MTI.class)) {
-				set(field.getName(), obj, field.getType(), mti);
-				return;
-			}
-		}
-		throw new NotFoundMTIException();
+			throws IllegalAccessException, UnsupportedEncodingException, NoSuchMethodException, InvocationTargetException {
+		set(fieldMTI.getName(), obj, fieldMTI.getType(), mti);
 	}
 
 	public static String padding(int value, int lentgh, char padding, Justification justification) {
-		return padding(value, lentgh, padding, justification, 0, 0);
+		return padding(value, lentgh, padding, justification, 0);
 	}
 
-	public static String padding(int value, int lentgh, char padding, Justification justification, int minimumLength, int maximumLength) {
-		return padding(String.valueOf(value), lentgh, padding, justification, minimumLength, maximumLength);
+	public static String padding(int value, int lentgh, char padding, Justification justification, int maximumLength) {
+		return padding(String.valueOf(value), lentgh, padding, justification, maximumLength);
 	}
 
 	public static String padding(String value, int lentgh, char padding, Justification justification) {
-		return padding(value, lentgh, padding, justification, 0, 0);
+		return padding(value, lentgh, padding, justification, 0);
 	}
 
-	public static String padding(String value, int lentgh, char padding, Justification justification, int minimumLength, int maximumLength) {
-		for(int i = value.length(); i < (lentgh | minimumLength); i++) {
-			if(justification.equals(Justification.LEFT)) {
+	public static String padding(String value, int lentgh, char padding, Justification justification, int maximumLength) {
+		for(int i = value.length(); i < lentgh; i++) {
+			if(justification.equals(Justification.LEFT) || (justification.equals(Justification.NONE) && padding == '0')) {
 				value = padding + value;
-			} else if(justification.equals(Justification.RIGHT)) {
+			} else if(justification.equals(Justification.RIGHT) || (justification.equals(Justification.NONE) && padding == ' ')) {
 				value = value + padding;
 			}
 		}
-		return value.length() > (lentgh | maximumLength)? value.substring(0, (lentgh | maximumLength)): value;
+		return maximumLength > lentgh? substring(value, maximumLength): substring(value, lentgh);
+	}
+
+	private static String substring(String str, int lentgh) {
+		return str.length() > lentgh? str.substring(0, lentgh): str;
 	}
 
 	protected String dataRepresentation(String value, DataRepresentation dataRepresentation)
@@ -245,7 +264,7 @@ public class MsgBuilder<T> {
 		} else if(dataRepresentation.equals(DataRepresentation.ALPHABETIC_NUMERIC)) {
 			value = value.replaceAll("[^a-zA-Z0-9]", "");
 		} else if(dataRepresentation.equals(DataRepresentation.ALPHABETIC_NUMERIC_SPACE)) {
-			value = value.replaceAll("[^a-zA-Z0-9\\s]", "");
+			value = value.replaceAll("[^a-zA-Z0-9\\s\\\\]", "");
 		} else if(dataRepresentation.equals(DataRepresentation.YYMMDDhhmmss)) {
 			value = value.replaceAll("[^0-9]", "");
 			new SimpleDateFormat("yyMMddHHmmss").parse(value);
@@ -255,6 +274,12 @@ public class MsgBuilder<T> {
 		} else if(dataRepresentation.equals(DataRepresentation.YYMM)) {
 			value = value.replaceAll("[^0-9]", "");
 			new SimpleDateFormat("yyMM").parse(value);
+		} else if(dataRepresentation.equals(DataRepresentation.MMDD)) {
+			value = value.replaceAll("[^0-9]", "");
+			new SimpleDateFormat("MMdd").parse(value);
+		} else if(dataRepresentation.equals(DataRepresentation.MMDDhhmmss)) {
+			value = value.replaceAll("[^0-9]", "");
+			new SimpleDateFormat("MMddHHmmss").parse(value);
 		}
 		return value;
 	}
@@ -281,6 +306,7 @@ public class MsgBuilder<T> {
 			read(in, bit.value(), lllvar);
 			return Integer.valueOf(new String(lllvar, encode.getName()));
 		}
+		LOGGER.debug("dataLength=" + bit.dataLength());
 		return bit.fixedLength();
 	}
 }

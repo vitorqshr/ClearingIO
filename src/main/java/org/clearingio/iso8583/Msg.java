@@ -13,7 +13,7 @@ public class Msg {
 	@MTI
 	private Number messageTypeIdentifier;
 
-	@Bit(value = 2, dataLength = DataLength.LLVAR, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', minimumLength = 6, maximumLength = 19, name = "Primary Account Number (PAN) n...19; LLVAR")
+	@Bit(value = 2, dataLength = DataLength.LLVAR, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', fixedLength = 6, maximumLength = 19, justification = Justification.LEFT, name = "Primary Account Number (PAN) n...19; LLVAR")
 	private String primaryAccountNumber;
 
 	@Bit(value = 3, fixedLength = 6, justification = Justification.LEFT, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Processing Code n-6")
@@ -61,10 +61,10 @@ public class Msg {
 	@Bit(value = 31, dataLength = DataLength.LLVAR, justification = Justification.LEFT, maximumLength = 23, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Acquirer Reference Data n-23; LLVAR")
 	private Number acquirerReferenceData;
 
-	@Bit(value = 32, dataLength = DataLength.LLVAR, justification = Justification.LEFT, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Acquiring Institution ID Code n...11; LLVAR")
+	@Bit(value = 32, dataLength = DataLength.LLVAR, justification = Justification.LEFT, fixedLength = 11, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Acquiring Institution ID Code n...11; LLVAR")
 	private Number acquiringInstitutionIDCode;
 
-	@Bit(value = 33, dataLength = DataLength.LLVAR, justification = Justification.LEFT, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Forwarding Institution ID Code n...11; LLVAR")
+	@Bit(value = 33, dataLength = DataLength.LLVAR, justification = Justification.LEFT, fixedLength = 11, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Forwarding Institution ID Code n...11; LLVAR")
 	private Number forwardingInstitutionIDCode;
 
 	@Bit(value = 37, fixedLength = 12, justification = Justification.RIGHT, dataRepresentation = DataRepresentation.ALPHABETIC_NUMERIC_SPACE, padding = ' ', name = "Retrieval Reference Number ans-12")
@@ -85,7 +85,7 @@ public class Msg {
 	@Bit(value = 43, dataLength = DataLength.LLVAR, maximumLength = 99, dataRepresentation = DataRepresentation.ALPHABETIC_NUMERIC_SPACE, padding = ' ', name = "Card Acceptor Name/Location ans...99; LLVAR")
 	private String cardAcceptorNameLocation;
 
-	@Bit(value = 48, dataLength = DataLength.LLLVAR, maximumLength = 999, dataRepresentation = DataRepresentation.ALPHABETIC_NUMERIC, name = "Additional Data an...999; LLLVAR")
+	@Bit(value = 48, dataLength = DataLength.LLLVAR, maximumLength = 999, dataRepresentation = DataRepresentation.ALPHABETIC_NUMERIC_SPACE, name = "Additional Data an...999; LLLVAR")
 	private String additionalData;
 
 	@Bit(value = 49, fixedLength = 3, justification = Justification.LEFT, dataRepresentation = DataRepresentation.NUMERIC, name = "Currency Code, Transaction n-3")
@@ -109,7 +109,7 @@ public class Msg {
 	@Bit(value = 63, dataLength = DataLength.LLLVAR, maximumLength = 16, dataRepresentation = DataRepresentation.ALPHABETIC_NUMERIC_SPACE, name = "Transaction Life Cycle ID ans-16; LLLVAR")
 	private String transactionLifeCycleID;
 
-	@Bit(value = 71, fixedLength = 8, justification = Justification.LEFT, dataRepresentation = DataRepresentation.NUMERIC, name = "Message Number n-8")
+	@Bit(value = 71, fixedLength = 8, justification = Justification.LEFT, dataRepresentation = DataRepresentation.NUMERIC, padding = '0', name = "Message Number n-8")
 	private Number messageNumber;
 
 	@Bit(value = 72, dataLength = DataLength.LLLVAR, maximumLength = 999, dataRepresentation = DataRepresentation.ALPHABETIC_NUMERIC_SPACE, name = "Data Record ans...999; LLLVAR")
@@ -118,16 +118,16 @@ public class Msg {
 	@Bit(value = 73, fixedLength = 6, justification = Justification.LEFT, dataRepresentation = DataRepresentation.YYMMDD, name = "Date, Action n-6; YYMMDD")
 	private Number dateAction;
 
-	@Bit(value = 93, dataLength = DataLength.LLVAR, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, name = "Transaction Destination Institution ID Code n...11; LLVAR")
+	@Bit(value = 93, dataLength = DataLength.LLVAR, fixedLength = 6, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, justification = Justification.LEFT, padding = '0', name = "Transaction Destination Institution ID Code n...11; LLVAR")
 	private Number transactionDestinationInstitutionIDCode;
 
-	@Bit(value = 94, dataLength = DataLength.LLVAR, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, name = "Transaction Originator Institution ID Code n...11; LLVAR")
+	@Bit(value = 94, dataLength = DataLength.LLVAR, fixedLength = 6, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, justification = Justification.LEFT, padding = '0', name = "Transaction Originator Institution ID Code n...11; LLVAR")
 	private Number transactionOriginatorInstitutionIDCode;
 
 	@Bit(value = 95, dataLength = DataLength.LLVAR, maximumLength = 10, dataRepresentation = DataRepresentation.NUMERIC, name = "Card Issuer Reference Data n-10; LLVAR")
 	private Number cardIssuerReferenceData;
 
-	@Bit(value = 100, dataLength = DataLength.LLVAR, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, name = "Receiving Institution ID Code n...11; LLVAR")
+	@Bit(value = 100, dataLength = DataLength.LLVAR, fixedLength = 6, maximumLength = 11, dataRepresentation = DataRepresentation.NUMERIC, justification = Justification.LEFT, padding = '0', name = "Receiving Institution ID Code n...11; LLVAR")
 	private Number receivingInstitutionIDCode;
 
 	@Bit(value = 111, dataLength = DataLength.LLLVAR, maximumLength = 12, dataRepresentation = DataRepresentation.NUMERIC, name = "Amount, Currency Conversion Assessment n-12; LLLVAR")
