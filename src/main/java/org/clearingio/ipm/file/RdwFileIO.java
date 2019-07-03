@@ -10,13 +10,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-public class FileIO {
+public class RdwFileIO {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(FileIO.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(RdwFileIO.class);
 
 	private Encode encode;
 
-	public FileIO(Encode encode) {
+	public RdwFileIO(Encode encode) {
 		this.encode = encode;
 	}
 

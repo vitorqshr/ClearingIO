@@ -1,5 +1,10 @@
 package org.clearingio.ipm.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ProcessingCodeDto {
 
 	private String cardholderTransactionType;
@@ -7,28 +12,4 @@ public class ProcessingCodeDto {
 	private String cardholderFromAccountTypeCode;
 
 	private String cardholderToAccountTypeCode;
-
-	public String getCardholderTransactionType() {
-		return cardholderTransactionType;
-	}
-
-	public void setCardholderTransactionType(String cardholderTransactionType) {
-		this.cardholderTransactionType = cardholderTransactionType;
-	}
-
-	public String getCardholderFromAccountTypeCode() {
-		return cardholderFromAccountTypeCode;
-	}
-
-	public void setCardholderFromAccountTypeCode(String cardholderFromAccountTypeCode) {
-		this.cardholderFromAccountTypeCode = cardholderFromAccountTypeCode;
-	}
-
-	public String getCardholderToAccountTypeCode() {
-		return cardholderToAccountTypeCode;
-	}
-
-	public void setCardholderToAccountTypeCode(String cardholderToAccountTypeCode) {
-		this.cardholderToAccountTypeCode = cardholderToAccountTypeCode;
-	}
 }
