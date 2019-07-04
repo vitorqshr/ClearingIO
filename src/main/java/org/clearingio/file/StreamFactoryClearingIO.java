@@ -29,8 +29,8 @@ public class StreamFactoryClearingIO {
 				.addRecord(Transaction07CardChipData.class)
 				//.addRecord(Transaction08LiquidationOfAirlineCompanies.class)
 				.addRecord(Transaction09PartialRejectionReasonData.class)
-				//.addRecord(FeeCollection10Debit.class)
-				//.addRecord(FeeCollection12AdditionalData.class)
+				//.addRecord(FeeCollectionFinancialDisputeAdjustment00.class)
+				//.addRecord(FeeCollectionFinancialDisputeAdjustment02AdditionalData.class)
 				.addRecord(TrailerBZ.class)
 				.addRecord(ReturnTransactional44DataReturn00.class);
 		streamFactory.define(streamBuilder);

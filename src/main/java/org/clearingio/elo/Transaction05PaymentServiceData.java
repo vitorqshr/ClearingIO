@@ -2,12 +2,14 @@ package org.clearingio.elo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.beanio.annotation.Field;
 import org.beanio.annotation.Fields;
 import org.beanio.annotation.Record;
 
 @Getter
 @Setter
+@ToString
 @Record(name = "Layout das transações - Registro Dados de Serviço de Pagamento (tipo “05”)")
 @Fields({
 	@Field(ordinal = 2, length = 1, literal = "0", name = "Código Qualificador da Transação"),

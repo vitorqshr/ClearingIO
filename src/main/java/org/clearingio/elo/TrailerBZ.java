@@ -2,16 +2,18 @@ package org.clearingio.elo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.beanio.annotation.Field;
 import org.beanio.annotation.Fields;
 import org.beanio.annotation.Record;
 
 @Getter
 @Setter
+@ToString
 @Record(name = "Registro BZ - Trailer")
 @Fields({
-		@Field(ordinal = 1, length = 2, rid =true, literal = "BZ", name = "Código da Transação"),
-		@Field(ordinal = 2, length = 2, rid =true, literal = "10", name = "Código do Serviço")
+	@Field(ordinal = 1, length = 2, rid =true, literal = "BZ", name = "Código da Transação"),
+	@Field(ordinal = 2, length = 2, rid =true, literal = "10", name = "Código do Serviço")
 })
 public class TrailerBZ {
 

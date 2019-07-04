@@ -12,8 +12,8 @@ import org.beanio.annotation.Record;
 @ToString
 @Record(name = "Layout do HEADER - Registro Header (tipo “B0”)")
 @Fields({
-		@Field(at = 0, length = 2, rid = true, literal = "B0", name = "Código do Registro"),/*RegistryCode*/
-		@Field(at = 2, length = 2, rid = true, literal = "10", name = "Código do Serviço")/*ServiceCode*/
+	@Field(at = 0, length = 2, rid = true, literal = "B0", name = "Código do Registro"),/*RegistryCode*/
+	@Field(at = 2, length = 2, rid = true, literal = "10", name = "Código do Serviço")/*ServiceCode*/
 })
 public class HeaderB0 {
 
