@@ -12,7 +12,7 @@ import org.beanio.annotation.Record;
 @ToString
 @Record(name = "Registro BZ - Trailer")
 @Fields({
-	@Field(ordinal = 1, length = 2, rid =true, literal = "BZ", name = "Código da Transação"),
+	@Field(ordinal = 1, length = 2, rid =true, literal = "BZ", name = "Código do Registro"),
 	@Field(ordinal = 2, length = 2, rid =true, literal = "10", name = "Código do Serviço")
 })
 public class TrailerBZ {
@@ -23,39 +23,39 @@ public class TrailerBZ {
 	@Field(ordinal = 4, length = 8, name = "Quantidade de Transações de Crédito em Moeda Real")
 	private String quantityOfRealCurrencyCreditTransactions;
 	
-	@Field(ordinal = 5, length = 15)
-	private String valorTotalTransacoesCreditoMoedaReal;
+	@Field(ordinal = 5, length = 15, name = "Valor Total das Transações de Créditos em Moeda Real")
+	private String totalAomuntOfCreditTransactionsInRealCurrency;
 	
-	@Field(ordinal = 6, length = 8)
-	private String quantityTransacaoDebitoMoedaReal;
+	@Field(ordinal = 6, length = 8, name = "Quantidade de Transações de Débito em Moeda Real")
+	private String quantityOfDebitTransactionsInRealCurrency;
 	
-	@Field(ordinal = 7, length = 15)
-	private String valorTotalTransacoesDebitoMoedaReal;
+	@Field(ordinal = 7, length = 15, name = "Valor Total das Transações de Débitos em Moeda Real")
+	private String totalAmountOfRealCurrencyDebtTransactions;
 	
-	@Field(ordinal = 8, length = 8)
-	private String quantityTransacaoCreditoMoedaDolar;
+	@Field(ordinal = 8, length = 8, name = "Quantidade de Transações de Crédito em Moeda Dólar")
+	private String quantityOfCreditTransactionsInDollarCurrency;
 	
-	@Field(ordinal = 9, length = 15)
-	private String valorTotalTransacoesCreditoMoedaDolar;
+	@Field(ordinal = 9, length = 15, name = "Valor Total das Transações de Créditos em Moeda Dólar")
+	private String totalAmountOfDollarCurrencyCreditTransactions;
 	
-	@Field(ordinal = 10, length = 8)
-	private String quantityTransacaoDebitoMoedaDolar;
+	@Field(ordinal = 10, length = 8, name = "Quantidade de Transações de Débito em Moeda Dólar")
+	private String quantityOfDebitTransactionsInDollarCurrency;
 	
-	@Field(ordinal = 11, length = 15)
-	private String valorTotalTransacoesDebitoMoedaDolar;
+	@Field(ordinal = 11, length = 15, name = "Valor Total das Transações de Débitos em Moeda Dólar")
+	private String totalAmountOfDollarCurrencyCurrencyTransactions;
 	
-	@Field(ordinal = 12, length = 8)
-	private String quantityTotalRegistros;
+	@Field(ordinal = 12, length = 8, name = "Quantidade Total de Registros")
+	private String totalQuantityOfRecords;
 	
-	@Field(ordinal = 13, length = 8)
-	private String quantityTransacoesMovimentacaoPareclado;
+	@Field(ordinal = 13, length = 8, name = "Quantidade de Transações de Movimentação de Parcelado")
+	private String quantityOfParcelTransactionsTransactions;
 	
-	@Field(ordinal = 14, length = 15)
-	private String valorTotalTransacoesMovimentacaoParcelado;
+	@Field(ordinal = 14, length = 15, name = "Valor Total das Transações de Movimentação de Parcelado")
+	private String totalAmountOfParcelTransactionsTransactions;
 	
 	@Field(ordinal = 15, length = 36)
 	private String futureUse;
 	
-	@Field(ordinal = 16, length = 1)
-	private Integer indicadorRotaArquivo;
+	@Field(ordinal = 16, length = 1, name = "Indicador de Rota do Arquivo")
+	private Integer fileRouteIndicator;
 }
