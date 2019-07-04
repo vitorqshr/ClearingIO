@@ -16,7 +16,7 @@ import org.beanio.annotation.Record;
 })
 public class Transaction03FundsTransferData {
 	
-	@Field(ordinal = 1, length = 2, rid = true, literal = "(01|05|06|15|16|25|26|35|36)", name = "Código da Transação")
+	@Field(ordinal = 1, length = 2, rid = true, regex = "(01|05|06|15|16|25|26|35|36)", name = "Código da Transação")
 	private String transactionCode;
 
 	@Field(ordinal = 3, length = 12, name = "Tipo de Pagamento")

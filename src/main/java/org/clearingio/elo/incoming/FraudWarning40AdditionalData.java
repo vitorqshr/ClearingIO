@@ -10,8 +10,8 @@ import org.beanio.annotation.Record;
 @Setter
 @Record(name = "Layout para transação TE40 - Registro Dados de Adicionais de Fraude (tipo “02”)")
 @Fields({
-	@Field(at = 0,  length = 2 , rid =true, literal = "40", name = "Código da Transação"),
-	@Field(at = 2,  length = 2 , rid =true, literal = "02", name = "Subcódigo da Transação")
+	@Field(at = 0,  length = 2 , rid = true, literal = "40", name = "Código da Transação"),
+	@Field(at = 2,  length = 2 , rid = true, literal = "02", name = "Subcódigo da Transação")
 })
 public class FraudWarning40AdditionalData {
 

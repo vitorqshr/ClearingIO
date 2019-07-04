@@ -4,19 +4,21 @@ import lombok.Getter;
 import lombok.Setter;
 import org.beanio.annotation.Field;
 import org.beanio.annotation.Fields;
+import org.beanio.annotation.Record;
 import org.beanio.builder.Align;
 
 @Getter
 @Setter
+@Record(name = "Draft Data Transactions TRC0")
 @Fields({
-	@Field(at = 3, length = 1, literal = "0", rid = true)
+	@Field(at = 3, length = 1, literal = "0", rid = true, name = "Transaction Code Qualifer")
 })
 public class DraftDataTransactionsTRC0 {
 
-	@Field(at = 0, length = 2, regex = "(04|05|06|07|15|16|17|25|26|27|35|36|37)", rid = true)
+	@Field(at = 0, length = 2, regex = "(04|05|06|07|15|16|17|25|26|27|35|36|37)", rid = true, name = "Transaction Code")
 	private String transactionCode;
 
-	@Field(at = 2, length = 1)
+	@Field(at = 2, length = 1, regex = "(0|1|2)", rid = true)
 	private String transactionCodeQualifier;
 
 	@Field(at = 4, length = 16)
@@ -40,7 +42,7 @@ public class DraftDataTransactionsTRC0 {
 	@Field(at = 49, length = 8, align = Align.RIGHT, padding = '0')
 	private String acquirersBusinessId;
 
-	@Field(at = 57, length = 4, format = "MMdd")
+	@Field(at = 57, length = 4/*, format = "MMdd"*/)
 	private String purchaseDate;
 
 	@Field(at = 61, length = 12, align = Align.RIGHT, padding = '0')

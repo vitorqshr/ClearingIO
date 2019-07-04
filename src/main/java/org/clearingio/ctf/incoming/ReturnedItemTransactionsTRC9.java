@@ -7,15 +7,20 @@ import org.beanio.annotation.Field;
 
 import org.beanio.annotation.Fields;
 
+import org.beanio.annotation.Record;
 import org.beanio.builder.Align;
 
 @Getter
 @Setter
+@Record
 @Fields({
-	@Field(at = 0, length = 2, regex = "(01|02|03)", rid = true),
-	@Field(at = 3, length = 1, literal = "9", rid = true)
+	@Field(at = 3, length = 1, literal = "9", rid = true, name = "Transaction Component Sequence Number")
 })
 public class ReturnedItemTransactionsTRC9 {
+
+	@Field(at = 0, length = 2, regex = "(01|02|03)", rid = true, name = "Transaction Code")
+	private String transactionCode;
+
 	@Field(at = 2, length = 1)
 	private String transactionCodeQualifer;
 
@@ -34,7 +39,7 @@ public class ReturnedItemTransactionsTRC9 {
 	@Field(at = 19, length = 1)
 	private String originalTransactionComponentSequenceNumber;
 
-	@Field(at = 20, length = 5, format = "yyddd")
+	@Field(at = 20, length = 5/*, format = "yyddd"*/)
 	private String sourceBatchDate;
 
 	@Field(at = 25, length = 6, align = Align.RIGHT, padding = '0')

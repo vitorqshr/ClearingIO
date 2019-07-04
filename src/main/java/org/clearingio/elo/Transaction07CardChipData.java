@@ -20,7 +20,7 @@ import org.beanio.annotation.Record;
 })
 public class Transaction07CardChipData {
 	
-	@Field(ordinal = 1, length = 2, rid =true, regex = "(01|05|06|15|16|25|26|35|36|46)", name = "Código da Transação")
+	@Field(ordinal = 1, length = 2, rid = true, regex = "(01|05|06|15|16|25|26|35|36|46)", name = "Código da Transação")
 	private String transactionCode;
 
 	@Field(ordinal = 4, length = 2, name = "Tipo de Transação")

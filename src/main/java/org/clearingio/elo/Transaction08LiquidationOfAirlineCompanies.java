@@ -12,11 +12,11 @@ import org.beanio.annotation.Record;
 @ToString
 @Record(name = "Layout das transações - Registro Dados de Companhias Aéreas (tipo “08”)")
 @Fields({
-	@Field(ordinal = 2, length = 2 , literal = "08", name = "Subcódigo da Transação")
+	@Field(ordinal = 2, length = 2, rid = true, literal = "08", name = "Subcódigo da Transação")
 })
 public class Transaction08LiquidationOfAirlineCompanies {
 	
-	@Field(ordinal = 1, length = 2 , regex = "(01|05|06|15|16|25|26|35|36|46)", name = "Código da Transação")
+	@Field(ordinal = 1, length = 2, rid = true, regex = "(01|05|06|15|16|25|26|35|36|46)", name = "Código da Transação")
 	private String transactionCode;
 
 	@Field(ordinal = 3, length = 3, name = "Código da Companhia Aérea")
@@ -73,7 +73,7 @@ public class Transaction08LiquidationOfAirlineCompanies {
 	@Field(ordinal = 20, length = 3, name = "Código do Aeroporto de Destino")
 	private String destinationAirportCode;
 	
-	@Field(ordinal = 21, length = 6,  format = "AAMMDD", name = "Data do Primeiro Voo")
+	@Field(ordinal = 21, length = 6/*,  format = "AAMMDD"*/, name = "Data do Primeiro Voo")
 	private String firstDateFlight;
 	
 	@Field(ordinal = 22, length = 30, name = "Nome do Agente Emissor do Documento")

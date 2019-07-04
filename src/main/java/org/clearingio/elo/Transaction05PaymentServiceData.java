@@ -12,7 +12,7 @@ import org.beanio.annotation.Record;
 @ToString
 @Record(name = "Layout das transações - Registro Dados de Serviço de Pagamento (tipo “05”)")
 @Fields({
-	@Field(ordinal = 2, length = 1, literal = "0", name = "Código Qualificador da Transação"),
+	@Field(ordinal = 2, length = 1, rid = true, literal = "0", name = "Código Qualificador da Transação"),
 	@Field(ordinal = 3, length = 1, rid = true, literal = "5", name = "Número de Sequência do Componente da Transação")
 })
 public class Transaction05PaymentServiceData {

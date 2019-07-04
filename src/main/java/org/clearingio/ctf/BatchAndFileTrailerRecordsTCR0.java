@@ -4,17 +4,21 @@ import lombok.Getter;
 import lombok.Setter;
 import org.beanio.annotation.Field;
 import org.beanio.annotation.Fields;
+import org.beanio.annotation.Record;
 import org.beanio.builder.Align;
 
 @Getter
 @Setter
+@Record(name = "Batch And File Trailer Records TCR0")
 @Fields({
-	@Field(at = 0, length = 2, regex = "(91|92)", rid = true),
-	@Field(at = 3, length = 1, literal = "0", rid = true, align = Align.RIGHT, padding = '0')
+	@Field(at = 3, length = 1, literal = "0", rid = true, name = "Transaction Component Sequence Number")
 })
 public class BatchAndFileTrailerRecordsTCR0 {
 
-	@Field(at = 2, length = 1, align = Align.RIGHT, padding = '0')
+	@Field(at = 0, length = 2, regex = "(91|92)", rid = true, name = "Transaction Code")
+	private String transactionCode;
+
+	@Field(at = 2, length = 1, literal = "0", rid = true)
 	private String transactionCodeQualifer;
 
 	@Field(at = 4, length = 6, align = Align.RIGHT, padding = '0')

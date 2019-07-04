@@ -31,7 +31,7 @@ public class FeeCollectionFinancialDisputeAdjustment02AdditionalData {
 	@Field(ordinal = 6,  length = 3, name = "Quantidade de Dias para Liquidação Financeira da Transação")
 	private Long quantityDaysTransactionSettlement;
 	
-	@Field(ordinal = 7,  length = 8,  format = "yyyyMMdd", name = "Data de Processamento")
+	@Field(ordinal = 7,  length = 8/*,  format = "yyyyMMdd"*/, name = "Data de Processamento")
 	private String processingDate;
 	
 	@Field(ordinal = 8,  length = 3, name = "Código do Erro")
@@ -40,7 +40,7 @@ public class FeeCollectionFinancialDisputeAdjustment02AdditionalData {
 	@Field(ordinal = 9,  length = 19, name = "Token PAN")
 	private String tokenPan;
 
-	@Field(ordinal = 10,  length = 8,  format = "yyyyMMdd", name = "Data de Liquidação da transação")
+	@Field(ordinal = 10,  length = 8/*, format = "yyyyMMdd"*/, name = "Data de Liquidação da transação")
 	private String transactionSettlementDate;
 	
 	@Field(ordinal = 11,  length = 105, name = "Uso futuro")

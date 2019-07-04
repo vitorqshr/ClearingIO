@@ -31,7 +31,7 @@ public class FeeCollectionFinancialDisputeAdjustment00 {
 	@Field(ordinal = 6,  length = 3, name = "Código do País")
 	private String countryCode;
 	
-	@Field(ordinal = 7,  length = 8,  format = "yyyyMMdd", name = "Data de Envio")
+	@Field(ordinal = 7,  length = 8/*,  format = "yyyyMMdd"*/, name = "Data de Envio")
 	private String sendDate;
 	
 	@Field(ordinal = 8,  length = 19, name = "Número do Cartão")

@@ -2,21 +2,25 @@ package org.clearingio.ctf.outgoing;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.beanio.annotation.Field;
 import org.beanio.annotation.Fields;
+import org.beanio.annotation.Record;
 import org.beanio.builder.Align;
 
 @Getter
 @Setter
+@ToString
+@Record(name = "Header Records")
 @Fields({
-	@Field(at = 0, length = 2, literal = "90", rid = true)
+	@Field(at = 0, length = 2, literal = "90", rid = true, name = "Transaction Code")
 })
 public class HeaderRecordsTCR0OutgoingCTF {
 
 	@Field(at = 2, length = 6)
 	private String processingBIN;
 
-	@Field(at = 8, length = 5, format = "yyddd")
+	@Field(at = 8, length = 5/*, format = "yyddd"*/)
 	private String processingDate;
 
 	@Field(at = 13, length = 16)

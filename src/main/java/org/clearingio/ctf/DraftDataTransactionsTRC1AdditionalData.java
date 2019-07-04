@@ -4,19 +4,21 @@ import lombok.Getter;
 import lombok.Setter;
 import org.beanio.annotation.Field;
 import org.beanio.annotation.Fields;
+import org.beanio.annotation.Record;
 import org.beanio.builder.Align;
 
 @Getter
 @Setter
+@Record(name = "Draft Data Transactions TRC1 Additional Data")
 @Fields({
-	@Field(at = 3, length = 1, literal = "1", rid = true)
+	@Field(at = 3, length = 1, literal = "1", rid = true, name = "Transaction Component Sequence Number")
 })
 public class DraftDataTransactionsTRC1AdditionalData {
 
-	@Field(at = 0, length = 2, regex = "(05|06|07|15|16|17|25|26|27|35|36|37)", rid = true)
+	@Field(at = 0, length = 2, regex = "(05|06|07|15|16|17|25|26|27|35|36|37)", rid = true, name = "Transaction Code")
 	private String transactionCode;
 
-	@Field(at = 2, length = 1)
+	@Field(at = 2, length = 1, regex = "(0|1|2)", rid = true)
 	private String transactionCodeQualifer;
 
 	@Field(at = 4, length = 1)

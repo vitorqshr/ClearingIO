@@ -4,24 +4,27 @@ import lombok.Getter;
 import lombok.Setter;
 import org.beanio.annotation.Field;
 import org.beanio.annotation.Fields;
+import org.beanio.annotation.Record;
 import org.beanio.builder.Align;
 
 @Getter
 @Setter
+@Record(name = "Header Records TCR0 Incoming CTF")
 @Fields({
-	@Field(at = 0, length = 2, literal = "90", rid = true)
+	@Field(at = 0, length = 2, literal = "90", rid = true, name = "Transaction Code")
 })
-public class HeaderRecordsTCR0IncoingCTF {
+public class HeaderRecordsTCR0IncomingCTF {
+
 	@Field(at = 2, length = 6)
 	private String processingBIN;
 
-	@Field(at = 8, length = 5, format = "yyddd")
+	@Field(at = 8, length = 5/*, format = "yyddd"*/)
 	private String processingDate;
 
 	@Field(at = 13, length = 6)
 	private String reserved1;
 
-	@Field(at = 8, length = 5, format = "yyddd")
+	@Field(at = 8, length = 5/*, format = "yyddd"*/)
 	private String settlementDate;
 
 	@Field(at = 24, length = 6)
