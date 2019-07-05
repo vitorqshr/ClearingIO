@@ -3,18 +3,23 @@ package org.clearingio.ctf.incoming;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.beanio.annotation.Field;
 
 import org.beanio.annotation.Fields;
 
+import org.beanio.annotation.Record;
 import org.beanio.builder.Align;
 
 @Getter
 @Setter
+@ToString
+@Record
 @Fields({
-	@Field(at = 0, length = 2, literal = "46", rid = true),
-	@Field(at = 3, length = 1, literal = "0", rid = true),
-	@Field(at = 58, length = 1, literal = "N", rid = true)
+	@Field(at = 0, length = 2, literal = "46", rid = true, name = "Transaction Code"),
+	@Field(at = 2, length = 1, literal = "0", rid = true, name = "Transaction Code Qualifer"),
+	@Field(at = 3, length = 1, literal = "0", rid = true, name = "Transaction Component Sequence Number"),
+	@Field(at = 58, length = 1, literal = "N", rid = true, name = "Report Group")
 })
 public class MemberSettlementDataTransactionsTCR0N {
 	@Field(at = 4, length = 6)
@@ -23,8 +28,8 @@ public class MemberSettlementDataTransactionsTCR0N {
 	@Field(at = 10, length = 6)
 	private String sourceBin;
 
-	@Field(at = 16, length = 5, format = "yyDDD")
-	private String centralProcString;
+	@Field(at = 16, length = 5/*, format = "yyDDD"*/)
+	private String centralProc;
 
 	@Field(at = 21, length = 3)
 	private String currencyCode;
@@ -44,8 +49,8 @@ public class MemberSettlementDataTransactionsTCR0N {
 	@Field(at = 30, length = 1)
 	private String summaryTransUsage;
 
-	@Field(at = 31, length = 5, format = "yyDDD")
-	private String settlementString;
+	@Field(at = 31, length = 5/*, format = "yyDDD"*/)
+	private String settlement;
 
 	@Field(at = 36, length = 22)
 	private String reservado1;

@@ -13,6 +13,9 @@ import org.beanio.builder.Align;
 @Getter
 @Setter
 @Record
+@Fields({
+	@Field(at = 2, length = 1, literal = "0", rid = true, name = "Transaction Code Qualifer"),
+})
 public class ReturnedItemTransactionsTRC0At8 {
 
 	@Field(at = 0, length = 2, regex = "(01|02|03)", rid = true, name = "Transaction Code")

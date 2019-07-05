@@ -2,6 +2,7 @@ package org.clearingio.ctf.incoming;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.beanio.annotation.Field;
 import org.beanio.annotation.Fields;
 import org.beanio.annotation.Record;
@@ -9,6 +10,7 @@ import org.beanio.builder.Align;
 
 @Getter
 @Setter
+@ToString
 @Record(name = "Header Records TCR0 Incoming CTF")
 @Fields({
 	@Field(at = 0, length = 2, literal = "90", rid = true, name = "Transaction Code")

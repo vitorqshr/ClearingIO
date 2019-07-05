@@ -14,15 +14,13 @@ import org.beanio.builder.Align;
 @Setter
 @Record
 @Fields({
+	@Field(at = 2, length = 1, literal = "0", rid = true, name = "Transaction Code Qualifer"),
 	@Field(at = 3, length = 1, literal = "9", rid = true, name = "Transaction Component Sequence Number")
 })
 public class ReturnedItemTransactionsTRC9 {
 
 	@Field(at = 0, length = 2, regex = "(01|02|03)", rid = true, name = "Transaction Code")
 	private String transactionCode;
-
-	@Field(at = 2, length = 1)
-	private String transactionCodeQualifer;
 
 	@Field(at = 4, length = 6)
 	private String destinationBIN;

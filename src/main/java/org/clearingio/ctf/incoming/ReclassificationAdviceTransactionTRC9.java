@@ -3,22 +3,24 @@ package org.clearingio.ctf.incoming;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.beanio.annotation.Field;
 
 import org.beanio.annotation.Fields;
 
+import org.beanio.annotation.Record;
 import org.beanio.builder.Align;
 
 @Getter
 @Setter
+@ToString
+@Record
 @Fields({
-	@Field(at = 0, length = 2, literal = "04", rid = true),
-	@Field(at = 3, length = 1, literal = "9", rid = true)
+	@Field(at = 0, length = 2, literal = "04", rid = true, name = "Transaction Code"),
+	@Field(at = 2, length = 1, literal = "0", rid = true, name = "Transaction Code Qualifer"),
+	@Field(at = 3, length = 1, literal = "9", rid = true, name = "Transaction Component Sequence Number")
 })
 public class ReclassificationAdviceTransactionTRC9 {
-	@Field(at = 2, length = 1)
-	private String transactionCodeQualifer;
-
 	@Field(at = 4, length = 6)
 	private String destinationBIN;
 
@@ -34,7 +36,7 @@ public class ReclassificationAdviceTransactionTRC9 {
 	@Field(at = 19, length = 1)
 	private String originalTransactionComponentSequenceNumber;
 
-	@Field(at = 20, length = 5, format = "yyddd")
+	@Field(at = 20, length = 5/*, format = "yyddd"*/)
 	private String sourceBatchDate;
 
 	@Field(at = 25, length = 6, align = Align.RIGHT, padding = '0')

@@ -1,12 +1,12 @@
 package org.clearingio.file;
 
 import org.beanio.BeanReader;
+import org.beanio.BeanReaderErrorHandler;
+import org.beanio.BeanReaderException;
 import org.beanio.builder.FixedLengthParserBuilder;
 import org.beanio.builder.StreamBuilder;
 import org.clearingio.ctf.*;
-import org.clearingio.ctf.incoming.HeaderRecordsTCR0IncomingCTF;
-import org.clearingio.ctf.incoming.ReturnedItemTransactionsTRC0At8;
-import org.clearingio.ctf.incoming.ReturnedItemTransactionsTRC9;
+import org.clearingio.ctf.incoming.*;
 import org.clearingio.ctf.outgoing.HeaderRecordsTCR0OutgoingCTF;
 import org.clearingio.elo.*;
 import org.clearingio.elo.incoming.*;
@@ -35,6 +35,19 @@ public class StreamFactoryClearingIO {
 		streamBuilderIncomingVisa.format("fixedlength")
 				.parser(new FixedLengthParserBuilder())
 				.addRecord(HeaderRecordsTCR0IncomingCTF.class)
+				.addRecord(MemberSettlementDataTransactionsTCR0N.class)
+				.addRecord(MemberSettlementDataTransactionsTCR0V1.class)
+				.addRecord(MemberSettlementDataTransactionsTCR0V2.class)
+				.addRecord(MemberSettlementDataTransactionsTCR0V3.class)
+				.addRecord(MemberSettlementDataTransactionsTCR0V4.class)
+				.addRecord(MemberSettlementDataTransactionsTCR0V5.class)
+				.addRecord(MemberSettlementDataTransactionsTCR0V6.class)
+				.addRecord(MemberSettlementDataTransactionsTCR0V7.class)
+				.addRecord(MemberSettlementDataTransactionsTCR0V9.class)
+				.addRecord(MemberSettlementDataTransactionsTCR1V4.class)
+				.addRecord(MemberSettlementDataTransactionsTCR1V9.class)
+				.addRecord(ReclassificationAdviceTransactionTRC0At7.class)
+				.addRecord(ReclassificationAdviceTransactionTRC9.class)
 				.addRecord(ReturnedItemTransactionsTRC0At8.class)
 				.addRecord(ReturnedItemTransactionsTRC9.class)
 				.addRecord(BatchAndFileTrailerRecordsTCR0.class);
@@ -66,6 +79,12 @@ public class StreamFactoryClearingIO {
 	public List<Object> createReader(String streamBuilderName, File file) {
 		List<Object> list = new ArrayList<>();
 		BeanReader beanReader = streamFactory.createReader(streamBuilderName, file);
+		beanReader.setErrorHandler(new BeanReaderErrorHandler() {
+			@Override
+			public void handleError(BeanReaderException ex) throws Exception {
+				System.err.println(ex.getRecordContext().getRecordText());
+			}
+		});
 		for(Object obj = beanReader.read(); obj != null; obj = beanReader.read()) {
 			list.add(obj);
 		}
@@ -75,9 +94,11 @@ public class StreamFactoryClearingIO {
 
 	public static void main(String[] args) {
 		StreamFactoryClearingIO streamFactoryClearingIO = new StreamFactoryClearingIO();
-		//String pathname = "C:\\SIPPE\\adq\\visa\\VISA.ADQ.OUT.CTF.466276.1549557003641.ctf";
+		//String pathname = "";
 		//streamFactoryClearingIO.createReader("OutgoingVisa", new File(pathname));
-		String pathname = "C:\\SIPPE\\adq\\elo\\ELO_ADQ_R_RITM0020932\\1ELO_ADQ_R_0075390C0347.txt";
-		streamFactoryClearingIO.createReader("IncomingELO", new File(pathname));
+		//String pathname = "";
+		//streamFactoryClearingIO.createReader("IncomingELO", new File(pathname));
+		String pathname = "";
+		streamFactoryClearingIO.createReader("IncomingVisa", new File(pathname));
 	}
 }

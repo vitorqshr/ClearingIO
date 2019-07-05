@@ -3,24 +3,26 @@ package org.clearingio.ctf.incoming;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.beanio.annotation.Field;
 
 import org.beanio.annotation.Fields;
 
+import org.beanio.annotation.Record;
 import org.beanio.builder.Align;
 
 @Getter
 @Setter
+@ToString
+@Record
 @Fields({
-	@Field(at = 0, length = 2, literal = "46", rid = true),
-	@Field(at = 3, length = 1, literal = "0", rid = true),
-	@Field(at = 58, length = 1, literal = "V", rid = true),
-	@Field(at = 59, length = 1, literal = "5", rid = true)
+	@Field(at = 0, length = 2, literal = "46", rid = true, name = "Transaction Code"),
+	@Field(at = 2, length = 1, literal = "0", rid = true, name = "Transaction Code Qualifer"),
+	@Field(at = 3, length = 1, literal = "0", rid = true, name = "Transaction Component Sequence Number"),
+	@Field(at = 58, length = 1, literal = "V", rid = true, name = "Report Group"),
+	@Field(at = 59, length = 1, literal = "5", rid = true, name = "Report Subgroup")
 })
 public class MemberSettlementDataTransactionsTCR0V5 {
-	@Field(at = 2, length = 1)
-	private String transactionCodeQualifier;
-
 	@Field(at = 4, length = 6)
 	private String destinationBin;
 
