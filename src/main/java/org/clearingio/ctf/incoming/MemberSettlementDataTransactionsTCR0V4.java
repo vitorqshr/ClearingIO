@@ -121,7 +121,4 @@ public class MemberSettlementDataTransactionsTCR0V4 {
 
 	@Field(at = 167, length = 1)
 	private String reimbursementAttribute;
-
-	@Record(minOccurs = 1)
-	private MemberSettlementDataTransactionsTCR1V4 memberSettlementDataTransactionsTCR1V4;
 }
