@@ -40,12 +40,12 @@ public class StreamFactoryClearingIO {
 				.addRecord(MemberSettlementDataTransactionsTCR0V2.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V3.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V4.class)
+//				.addRecord(MemberSettlementDataTransactionsTCR1V4.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V5.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V6.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V7.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V9.class)
-				.addRecord(MemberSettlementDataTransactionsTCR1V4.class)
-				.addRecord(MemberSettlementDataTransactionsTCR1V9.class)
+//				.addRecord(MemberSettlementDataTransactionsTCR1V9.class)
 				.addRecord(ReclassificationAdviceTransactionTRC0At7.class)
 				.addRecord(ReclassificationAdviceTransactionTRC9.class)
 				.addRecord(ReturnedItemTransactionsTRC0At8.class)
@@ -79,12 +79,7 @@ public class StreamFactoryClearingIO {
 	public List<Object> createReader(String streamBuilderName, File file) {
 		List<Object> list = new ArrayList<>();
 		BeanReader beanReader = streamFactory.createReader(streamBuilderName, file);
-		beanReader.setErrorHandler(new BeanReaderErrorHandler() {
-			@Override
-			public void handleError(BeanReaderException ex) throws Exception {
-				System.err.println(ex.getRecordContext().getRecordText());
-			}
-		});
+		beanReader.setErrorHandler(ex -> System.err.println(ex.getRecordContext().getRecordText()));
 		for(Object obj = beanReader.read(); obj != null; obj = beanReader.read()) {
 			list.add(obj);
 		}

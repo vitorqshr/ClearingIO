@@ -103,4 +103,7 @@ public class MemberSettlementDataTransactionsTCR0V9 {
 
 	@Field(at = 167, length = 1)
 	private String reimbursementAttribute;
+
+	@Record(minOccurs = 1)
+	private MemberSettlementDataTransactionsTCR1V9 memberSettlementDataTransactionsTCR1V9;
 }

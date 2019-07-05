@@ -4,11 +4,8 @@ package org.clearingio.ctf.incoming;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.beanio.annotation.Field;
+import org.beanio.annotation.*;
 
-import org.beanio.annotation.Fields;
-
-import org.beanio.annotation.Record;
 import org.beanio.builder.Align;
 
 @Getter
@@ -124,4 +121,7 @@ public class MemberSettlementDataTransactionsTCR0V4 {
 
 	@Field(at = 167, length = 1)
 	private String reimbursementAttribute;
+
+	@Record(minOccurs = 1)
+	private MemberSettlementDataTransactionsTCR1V4 memberSettlementDataTransactionsTCR1V4;
 }

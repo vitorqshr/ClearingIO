@@ -26,37 +26,37 @@ public class MemberSettlementDataTransactionsTCR1V9 {
 	@Field(at = 34, length = 15)
 	private String firstAmount;
 
-	@Field(at = 49, length = 2, regex = "(DB|CR|  )")
+	@Field(at = 49, length = 2)
 	private String firstAmountSign;
 
 	@Field(at = 51, length = 15)
 	private String secondAmount;
 
-	@Field(at = 66, length = 2, regex = "(DB|CR|  )")
+	@Field(at = 66, length = 2)
 	private String secondAmountSign;
 
 	@Field(at = 68, length = 15)
 	private String thirdAmount;
 
-	@Field(at = 83, length = 2, regex = "(DB|CR|  )")
+	@Field(at = 83, length = 2)
 	private String thirdAmountSign;
 
 	@Field(at = 85, length = 15)
 	private String fourthAmount;
 
-	@Field(at = 100, length = 2, regex = "(DB|CR|  )")
+	@Field(at = 100, length = 2)
 	private String fourthAmountSign;
 
 	@Field(at = 102, length = 15)
 	private String fifthAmount;
 
-	@Field(at = 117, length = 2, regex = "(DB|CR|  )")
+	@Field(at = 117, length = 2)
 	private String fifthAmountSign;
 
 	@Field(at = 119, length = 15)
 	private String sixthAmount;
 
-	@Field(at = 134, length = 2, regex = "(DB|CR|  )")
+	@Field(at = 134, length = 2)
 	private String sixthAmountSign;
 
 	@Field(at = 136, length = 32)
