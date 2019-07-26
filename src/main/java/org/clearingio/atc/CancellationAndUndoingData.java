@@ -1,7 +1,13 @@
 package org.clearingio.atc;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.beanio.annotation.Record;
 
+@Getter
+@Setter
+@ToString
 @Record(value = "CM – 05 / Dados de Cancelamento e Desfazimento")
 public class CancellationAndUndoingData {
 //CAMPO DESDE ATÉ TAMANHO TIPO OBSERVAÇÃO

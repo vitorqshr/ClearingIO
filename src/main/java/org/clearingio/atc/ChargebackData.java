@@ -1,7 +1,13 @@
 package org.clearingio.atc;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.beanio.annotation.Record;
 
+@Getter
+@Setter
+@ToString
 @Record(name = "CM – 03 / Dados do Chargebacks")
 public class ChargebackData {
 //CAMPO DESDE ATÉ TAMANHO TIPO OBSERVAÇÃO

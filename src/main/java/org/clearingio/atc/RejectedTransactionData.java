@@ -1,37 +1,436 @@
 package org.clearingio.atc;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.beanio.annotation.Field;
+import org.beanio.annotation.Fields;
 import org.beanio.annotation.Record;
 
+@Getter
+@Setter
+@ToString
 @Record(name = "CM – 20 / Dados da Transação Rejeitada")
+@Fields({
+		/**
+		 * Identificador do Tipo de Mensagem (MTI)
+		 * Preenchimento: Obrigatório
+		 * Início: 1
+		 * Tamanho: 3
+		 * Tipo: Numérico
+		 * Descrição:
+		 * 644 = Mensagem Administrativa
+		 */
+		@Field(ordinal = 1, length = 3, literal = "644", name = "Identificador de Tipo de Mensagem (MTI)"),
+		/**
+		 * Código de Função (FC)
+		 * Preenchimento: Obrigatório
+		 * Início: 4
+		 * Tamanho: 3
+		 * Tipo: Numérico
+		 * Descrição:
+		 * 652 = Rejeição de Transação
+		 */
+		@Field(ordinal = 2, length = 3, literal = "652", name = "Código de Função (FC)"),
+		/**
+		 * Componente da Mensagem
+		 * Preenchimento: Obrigatório
+		 * Início: 7
+		 * Tamanho: 2
+		 * Tipo: Alfanumérico
+		 * Descrição:
+		 * 20 = Dados da Transação Rejeitada
+		 */
+		@Field(ordinal = 3, length = 2, literal = "20", name = "Componente da Mensagem (CM)")
+})
 public class RejectedTransactionData {
-//CAMPO DESDE ATÉ TAMANHO TIPO OBSERVAÇÃO
-//1 1 3 3 N Identificador de Tipo de Mensagem (MTI)
-//2 4 6 3 N Código de Função (FC)
-//3 7 8 2 X Componente da Mensagem (CM)
-//4 9 18 10 N Número Sequencial de Registro (NSR)
-//5 19 30 12 N Identificador do Arquivo Original
-//6 31 40 10 N Sequencial do Registro Original
-//7 41 44 4 N Campo Rejeitado
-//8 45 48 4 N Código da Rejeição
-//9 49 52 4 N Campo Rejeitado
-//10 53 56 4 N Código da Rejeição
-//11 57 60 4 N Campo Rejeitado
-//12 61 64 4 N Código da Rejeição
-//13 65 68 4 N Campo Rejeitado
-//14 69 72 4 N Código da Rejeição
-//15 73 76 4 N Campo Rejeitado
-//16 77 80 4 N Código da Rejeição
-//17 81 84 4 N Campo Rejeitado
-//18 85 88 4 N Código da Rejeição
-//19 89 92 4 N Campo Rejeitado
-//20 93 96 4 N Código da Rejeição
-//21 97 100 4 N Campo Rejeitado
-//22 101 104 4 N Código da Rejeição
-//23 105 108 4 N Campo Rejeitado
-//24 109 112 4 N Código da Rejeição
-//25 113 116 4 N Campo Rejeitado
-//26 117 120 4 N Código da Rejeição
-//27 121 123 3 N Identificador do Tipo de Mensagem Original
-//28 124 126 3 N Identificador do Código de Função Original
-//29 127 450 324 N Reservado
+	/**
+	 * NSR – Número Sequencial de Registro
+	 * Preenchimento: Obrigatório
+	 * Início: 9
+	 * Tamanho: 10
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Número sequencial de um CM dentro do arquivo ATC.
+	 */
+	@Field(ordinal = 4, length = 10, padding = '0', name = "Número Sequencial de Registro (NSR)")
+	private String sequentialRegistrationNumber;
+
+	/**
+	 * Identificador do Arquivo Original
+	 * Preenchimento: Obrigatório
+	 * Início: 19
+	 * Tamanho: 12
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Código de identificação do arquivo ao qual a transação que
+	 * foi rejeitada pertencia.
+	 * Este campo contém o número sequencial do arquivo
+	 * ATCE01 originado pelo membro e encaminhado para o
+	 * Sistema de Compensação da Cabal.
+	 */
+	@Field(ordinal = 5, length = 12, padding = '0', name = "Identificador do Arquivo Original")
+	private String originalFileIdentifier;
+
+	/**
+	 * Sequencial do Registro
+	 * Preenchimento: Obrigatório
+	 * Início: 31
+	 * Tamanho: 10
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Identifica o número sequencial do registro original (que foi
+	 * rejeitado).
+	 */
+	@Field(ordinal = 6, length = 10, padding = '0', name = "Sequencial do Registro Original")
+	private String sequentialOriginalRegistration;
+
+	/**
+	 * Campos Rejeitados e Códigos de Rejeição
+	 * Preenchimento: Obrigatório (apenas o primeiro
+	 * código da rejeição e o primeiro campo rejeitado)
+	 * Início: 41
+	 * Tamanho: 80
+	 * Tipo: Numérico
+	 * Descrição:
+	 * São os números dos campos rejeitados com seus
+	 * respectivos códigos de rejeição. Em um registro ATC
+	 * podem ocorrer várias rejeições por diversos motivos. (Ver
+	 * Apêndice A – Códigos de Rejeição).
+	 * * Divididos de 4 em 4 na ordem Número do Campo
+	 * Rejeitado >> Código de Rejeição.
+	 */
+	@Field(ordinal = 7, length = 4, padding = '0', name = "Campo Rejeitado")
+	private String rejectedField1;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 8, length = 4, padding = '0', name = "Código da Rejeição")
+	private String rejectionCode1;
+
+	/**
+	 * Campos Rejeitados e Códigos de Rejeição
+	 * Preenchimento: Obrigatório (apenas o primeiro
+	 * código da rejeição e o primeiro campo rejeitado)
+	 * Início: 41
+	 * Tamanho: 80
+	 * Tipo: Numérico
+	 * Descrição:
+	 * São os números dos campos rejeitados com seus
+	 * respectivos códigos de rejeição. Em um registro ATC
+	 * podem ocorrer várias rejeições por diversos motivos. (Ver
+	 * Apêndice A – Códigos de Rejeição).
+	 * * Divididos de 4 em 4 na ordem Número do Campo
+	 * Rejeitado >> Código de Rejeição.
+	 */
+	@Field(ordinal = 9, length = 4, padding = '0', name = "Campo Rejeitado")
+	private String rejectedField2;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 10, length = 4, padding = '0', name = "Código da Rejeição")
+	private String rejectionCode2;
+
+	/**
+	 * Campos Rejeitados e Códigos de Rejeição
+	 * Preenchimento: Obrigatório (apenas o primeiro
+	 * código da rejeição e o primeiro campo rejeitado)
+	 * Início: 41
+	 * Tamanho: 80
+	 * Tipo: Numérico
+	 * Descrição:
+	 * São os números dos campos rejeitados com seus
+	 * respectivos códigos de rejeição. Em um registro ATC
+	 * podem ocorrer várias rejeições por diversos motivos. (Ver
+	 * Apêndice A – Códigos de Rejeição).
+	 * * Divididos de 4 em 4 na ordem Número do Campo
+	 * Rejeitado >> Código de Rejeição.
+	 */
+	@Field(ordinal = 11, length = 4, padding = '0', name = "Campo Rejeitado")
+	private String rejectedField3;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 12, length = 4, padding = '0', name = "Código da Rejeição")
+	private String rejectionCode3;
+
+	/**
+	 * Campos Rejeitados e Códigos de Rejeição
+	 * Preenchimento: Obrigatório (apenas o primeiro
+	 * código da rejeição e o primeiro campo rejeitado)
+	 * Início: 41
+	 * Tamanho: 80
+	 * Tipo: Numérico
+	 * Descrição:
+	 * São os números dos campos rejeitados com seus
+	 * respectivos códigos de rejeição. Em um registro ATC
+	 * podem ocorrer várias rejeições por diversos motivos. (Ver
+	 * Apêndice A – Códigos de Rejeição).
+	 * * Divididos de 4 em 4 na ordem Número do Campo
+	 * Rejeitado >> Código de Rejeição.
+	 */
+	@Field(ordinal = 13, length = 4, padding = '0', name = "Campo Rejeitado")
+	private String rejectedField4;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 14, length = 4, padding = '0', name = "Código da Rejeição")
+	private String rejectionCode4;
+
+	/**
+	 * Campos Rejeitados e Códigos de Rejeição
+	 * Preenchimento: Obrigatório (apenas o primeiro
+	 * código da rejeição e o primeiro campo rejeitado)
+	 * Início: 41
+	 * Tamanho: 80
+	 * Tipo: Numérico
+	 * Descrição:
+	 * São os números dos campos rejeitados com seus
+	 * respectivos códigos de rejeição. Em um registro ATC
+	 * podem ocorrer várias rejeições por diversos motivos. (Ver
+	 * Apêndice A – Códigos de Rejeição).
+	 * * Divididos de 4 em 4 na ordem Número do Campo
+	 * Rejeitado >> Código de Rejeição.
+	 */
+	@Field(ordinal = 15, length = 4, padding = '0', name = "Campo Rejeitado")
+	private String rejectedField5;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 16, length = 4, padding = '0', name = "Código da Rejeição")
+	private String rejectionCode5;
+
+	/**
+	 * Campos Rejeitados e Códigos de Rejeição
+	 * Preenchimento: Obrigatório (apenas o primeiro
+	 * código da rejeição e o primeiro campo rejeitado)
+	 * Início: 41
+	 * Tamanho: 80
+	 * Tipo: Numérico
+	 * Descrição:
+	 * São os números dos campos rejeitados com seus
+	 * respectivos códigos de rejeição. Em um registro ATC
+	 * podem ocorrer várias rejeições por diversos motivos. (Ver
+	 * Apêndice A – Códigos de Rejeição).
+	 * * Divididos de 4 em 4 na ordem Número do Campo
+	 * Rejeitado >> Código de Rejeição.
+	 */
+	@Field(ordinal = 17, length = 4, padding = '0', name = "Campo Rejeitado")
+	private String rejectedField6;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 18, length = 4, padding = '0', name = "Código da Rejeição")
+	private String rejectionCode6;
+
+	/**
+	 * Campos Rejeitados e Códigos de Rejeição
+	 * Preenchimento: Obrigatório (apenas o primeiro
+	 * código da rejeição e o primeiro campo rejeitado)
+	 * Início: 41
+	 * Tamanho: 80
+	 * Tipo: Numérico
+	 * Descrição:
+	 * São os números dos campos rejeitados com seus
+	 * respectivos códigos de rejeição. Em um registro ATC
+	 * podem ocorrer várias rejeições por diversos motivos. (Ver
+	 * Apêndice A – Códigos de Rejeição).
+	 * * Divididos de 4 em 4 na ordem Número do Campo
+	 * Rejeitado >> Código de Rejeição.
+	 */
+	@Field(ordinal = 19, length = 4, padding = '0', name = "Campo Rejeitado")
+	private String rejectedField7;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 20, length = 4, padding = '0', name = "Código da Rejeição")
+	private String rejectionCode7;
+
+	/**
+	 * Campos Rejeitados e Códigos de Rejeição
+	 * Preenchimento: Obrigatório (apenas o primeiro
+	 * código da rejeição e o primeiro campo rejeitado)
+	 * Início: 41
+	 * Tamanho: 80
+	 * Tipo: Numérico
+	 * Descrição:
+	 * São os números dos campos rejeitados com seus
+	 * respectivos códigos de rejeição. Em um registro ATC
+	 * podem ocorrer várias rejeições por diversos motivos. (Ver
+	 * Apêndice A – Códigos de Rejeição).
+	 * * Divididos de 4 em 4 na ordem Número do Campo
+	 * Rejeitado >> Código de Rejeição.
+	 */
+	@Field(ordinal = 21, length = 4, padding = '0', name = "Campo Rejeitado")
+	private String rejectedField8;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 22, length = 4, padding = '0', name = "Código da Rejeição")
+	private String rejectionCode8;
+
+	/**
+	 * Campos Rejeitados e Códigos de Rejeição
+	 * Preenchimento: Obrigatório (apenas o primeiro
+	 * código da rejeição e o primeiro campo rejeitado)
+	 * Início: 41
+	 * Tamanho: 80
+	 * Tipo: Numérico
+	 * Descrição:
+	 * São os números dos campos rejeitados com seus
+	 * respectivos códigos de rejeição. Em um registro ATC
+	 * podem ocorrer várias rejeições por diversos motivos. (Ver
+	 * Apêndice A – Códigos de Rejeição).
+	 * * Divididos de 4 em 4 na ordem Número do Campo
+	 * Rejeitado >> Código de Rejeição.
+	 */
+	@Field(ordinal = 23, length = 4, padding = '0', name = "Campo Rejeitado")
+	private String rejectedField9;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 24, length = 4, padding = '0', name = "Código da Rejeição")
+	private String rejectionCode9;
+
+	/**
+	 * Campos Rejeitados e Códigos de Rejeição
+	 * Preenchimento: Obrigatório (apenas o primeiro
+	 * código da rejeição e o primeiro campo rejeitado)
+	 * Início: 41
+	 * Tamanho: 80
+	 * Tipo: Numérico
+	 * Descrição:
+	 * São os números dos campos rejeitados com seus
+	 * respectivos códigos de rejeição. Em um registro ATC
+	 * podem ocorrer várias rejeições por diversos motivos. (Ver
+	 * Apêndice A – Códigos de Rejeição).
+	 * * Divididos de 4 em 4 na ordem Número do Campo
+	 * Rejeitado >> Código de Rejeição.
+	 */
+	@Field(ordinal = 25, length = 4, padding = '0', name = "Campo Rejeitado")
+	private String rejectedField10;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 26, length = 4, padding = '0', name = "Código da Rejeição")
+	private String rejectionCode10;
+
+	/**
+	 * Identificador do Tipo de Mensagem Original
+	 * Preenchimento: Obrigatório
+	 * Início: 121
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o tipo de registro que originou
+	 * aquela rejeição.
+	 */
+	@Field(ordinal = 27, length = 3, padding = '0', name = "Identificador do Tipo de Mensagem Original")
+	private String originalMessageTypeIdentifier;
+
+	/**
+	 * Identificador do Código de Função Original
+	 * Preenchimento: Obrigatório
+	 * Início: 124
+	 * Tamanho: 3
+	 * Tipo: Numérico
+	 * Descrição:
+	 * Utilizado para identificar o código de função daquela
+	 * transação.
+	 */
+	@Field(ordinal = 28, length = 3, padding = '0', name = "Identificador do Código de Função Original")
+	private String originalFunctionCodeIdentifier;
+
+	/**
+	 * Reservado
+	 * Preenchimento: Opcional
+	 * Início: 127
+	 * Tamanho: 324
+	 * Tipo: Alfanumérico
+	 * Descrição:
+	 * Brancos.
+	 */
+	@Field(ordinal = 29, length = 324, padding = ' ', name = "Reservado")
+	private String reserved;
+
 }

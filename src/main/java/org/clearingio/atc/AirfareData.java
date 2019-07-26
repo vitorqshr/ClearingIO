@@ -1,7 +1,13 @@
 package org.clearingio.atc;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.beanio.annotation.Record;
 
+@Getter
+@Setter
+@ToString
 @Record(name = "CM – PA / Dados da Passagem Aérea")
 public class AirfareData {
 //CAMPO DESDE ATÉ TAMANHO TIPO OBSERVAÇÃO
