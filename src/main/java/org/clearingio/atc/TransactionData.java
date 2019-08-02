@@ -34,7 +34,7 @@ public class TransactionData {
 	 * 240 = Apresentação
 	 * 442 = Chargeback
 	 */
-	@Field(ordinal = 1, length = 3, rid = true, regex = "(240|442)", align = Align.RIGHT, padding = '0', name = "Identificador de Tipo de Mensagem (MTI)")
+	@Field(ordinal = 1, length = 3, rid = true, regex = "(240|442)", name = "Identificador de Tipo de Mensagem (MTI)")
 	private String messageTypeIdentifier;
 
 	/**
@@ -50,7 +50,7 @@ public class TransactionData {
 	 * 450 = Primeiro Chargeback Total
 	 * 451 = Primeiro Chargeback Parcial
 	 */
-	@Field(ordinal = 2, length = 3, rid = true, regex = "(200|205|211|450|451)", align = Align.RIGHT, padding = '0', name = "Código de Função (FC)")
+	@Field(ordinal = 2, length = 3, rid = true, regex = "(200|205|211|450|451)", name = "Código de Função (FC)")
 	private String functionCode;
 
 	/**

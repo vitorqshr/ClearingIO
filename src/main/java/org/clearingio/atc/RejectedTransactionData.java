@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.beanio.annotation.Field;
 import org.beanio.annotation.Fields;
 import org.beanio.annotation.Record;
+import org.beanio.builder.Align;
 
 @Getter
 @Setter
@@ -53,7 +54,7 @@ public class RejectedTransactionData {
 	 * Descrição:
 	 * Número sequencial de um CM dentro do arquivo ATC.
 	 */
-	@Field(ordinal = 4, length = 10, padding = '0', name = "Número Sequencial de Registro (NSR)")
+	@Field(ordinal = 4, length = 10, align = Align.RIGHT, padding = '0', name = "Número Sequencial de Registro (NSR)")
 	private String sequentialRegistrationNumber;
 
 	/**
@@ -69,7 +70,7 @@ public class RejectedTransactionData {
 	 * ATCE01 originado pelo membro e encaminhado para o
 	 * Sistema de Compensação da Cabal.
 	 */
-	@Field(ordinal = 5, length = 12, padding = '0', name = "Identificador do Arquivo Original")
+	@Field(ordinal = 5, length = 12, align = Align.RIGHT, padding = '0', name = "Identificador do Arquivo Original")
 	private String originalFileIdentifier;
 
 	/**
@@ -82,7 +83,7 @@ public class RejectedTransactionData {
 	 * Identifica o número sequencial do registro original (que foi
 	 * rejeitado).
 	 */
-	@Field(ordinal = 6, length = 10, padding = '0', name = "Sequencial do Registro Original")
+	@Field(ordinal = 6, length = 10, align = Align.RIGHT, padding = '0', name = "Sequencial do Registro Original")
 	private String sequentialOriginalRegistration;
 
 	/**
@@ -100,7 +101,7 @@ public class RejectedTransactionData {
 	 * * Divididos de 4 em 4 na ordem Número do Campo
 	 * Rejeitado >> Código de Rejeição.
 	 */
-	@Field(ordinal = 7, length = 4, padding = '0', name = "Campo Rejeitado")
+	@Field(ordinal = 7, length = 4, align = Align.RIGHT, padding = '0', name = "Campo Rejeitado")
 	private String rejectedField1;
 
 	/**
@@ -113,7 +114,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 8, length = 4, padding = '0', name = "Código da Rejeição")
+	@Field(ordinal = 8, length = 4, align = Align.RIGHT, padding = '0', name = "Código da Rejeição")
 	private String rejectionCode1;
 
 	/**
@@ -131,7 +132,7 @@ public class RejectedTransactionData {
 	 * * Divididos de 4 em 4 na ordem Número do Campo
 	 * Rejeitado >> Código de Rejeição.
 	 */
-	@Field(ordinal = 9, length = 4, padding = '0', name = "Campo Rejeitado")
+	@Field(ordinal = 9, length = 4, align = Align.RIGHT, padding = '0', name = "Campo Rejeitado")
 	private String rejectedField2;
 
 	/**
@@ -144,7 +145,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 10, length = 4, padding = '0', name = "Código da Rejeição")
+	@Field(ordinal = 10, length = 4, align = Align.RIGHT, padding = '0', name = "Código da Rejeição")
 	private String rejectionCode2;
 
 	/**
@@ -162,7 +163,7 @@ public class RejectedTransactionData {
 	 * * Divididos de 4 em 4 na ordem Número do Campo
 	 * Rejeitado >> Código de Rejeição.
 	 */
-	@Field(ordinal = 11, length = 4, padding = '0', name = "Campo Rejeitado")
+	@Field(ordinal = 11, length = 4, align = Align.RIGHT, padding = '0', name = "Campo Rejeitado")
 	private String rejectedField3;
 
 	/**
@@ -175,7 +176,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 12, length = 4, padding = '0', name = "Código da Rejeição")
+	@Field(ordinal = 12, length = 4, align = Align.RIGHT, padding = '0', name = "Código da Rejeição")
 	private String rejectionCode3;
 
 	/**
@@ -193,7 +194,7 @@ public class RejectedTransactionData {
 	 * * Divididos de 4 em 4 na ordem Número do Campo
 	 * Rejeitado >> Código de Rejeição.
 	 */
-	@Field(ordinal = 13, length = 4, padding = '0', name = "Campo Rejeitado")
+	@Field(ordinal = 13, length = 4, align = Align.RIGHT, padding = '0', name = "Campo Rejeitado")
 	private String rejectedField4;
 
 	/**
@@ -206,7 +207,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 14, length = 4, padding = '0', name = "Código da Rejeição")
+	@Field(ordinal = 14, length = 4, align = Align.RIGHT, padding = '0', name = "Código da Rejeição")
 	private String rejectionCode4;
 
 	/**
@@ -224,7 +225,7 @@ public class RejectedTransactionData {
 	 * * Divididos de 4 em 4 na ordem Número do Campo
 	 * Rejeitado >> Código de Rejeição.
 	 */
-	@Field(ordinal = 15, length = 4, padding = '0', name = "Campo Rejeitado")
+	@Field(ordinal = 15, length = 4, align = Align.RIGHT, padding = '0', name = "Campo Rejeitado")
 	private String rejectedField5;
 
 	/**
@@ -237,7 +238,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 16, length = 4, padding = '0', name = "Código da Rejeição")
+	@Field(ordinal = 16, length = 4, align = Align.RIGHT, padding = '0', name = "Código da Rejeição")
 	private String rejectionCode5;
 
 	/**
@@ -255,7 +256,7 @@ public class RejectedTransactionData {
 	 * * Divididos de 4 em 4 na ordem Número do Campo
 	 * Rejeitado >> Código de Rejeição.
 	 */
-	@Field(ordinal = 17, length = 4, padding = '0', name = "Campo Rejeitado")
+	@Field(ordinal = 17, length = 4, align = Align.RIGHT, padding = '0', name = "Campo Rejeitado")
 	private String rejectedField6;
 
 	/**
@@ -268,7 +269,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 18, length = 4, padding = '0', name = "Código da Rejeição")
+	@Field(ordinal = 18, length = 4, align = Align.RIGHT, padding = '0', name = "Código da Rejeição")
 	private String rejectionCode6;
 
 	/**
@@ -286,7 +287,7 @@ public class RejectedTransactionData {
 	 * * Divididos de 4 em 4 na ordem Número do Campo
 	 * Rejeitado >> Código de Rejeição.
 	 */
-	@Field(ordinal = 19, length = 4, padding = '0', name = "Campo Rejeitado")
+	@Field(ordinal = 19, length = 4, align = Align.RIGHT, padding = '0', name = "Campo Rejeitado")
 	private String rejectedField7;
 
 	/**
@@ -299,7 +300,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 20, length = 4, padding = '0', name = "Código da Rejeição")
+	@Field(ordinal = 20, length = 4, align = Align.RIGHT, padding = '0', name = "Código da Rejeição")
 	private String rejectionCode7;
 
 	/**
@@ -317,7 +318,7 @@ public class RejectedTransactionData {
 	 * * Divididos de 4 em 4 na ordem Número do Campo
 	 * Rejeitado >> Código de Rejeição.
 	 */
-	@Field(ordinal = 21, length = 4, padding = '0', name = "Campo Rejeitado")
+	@Field(ordinal = 21, length = 4, align = Align.RIGHT, padding = '0', name = "Campo Rejeitado")
 	private String rejectedField8;
 
 	/**
@@ -330,7 +331,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 22, length = 4, padding = '0', name = "Código da Rejeição")
+	@Field(ordinal = 22, length = 4, align = Align.RIGHT, padding = '0', name = "Código da Rejeição")
 	private String rejectionCode8;
 
 	/**
@@ -348,7 +349,7 @@ public class RejectedTransactionData {
 	 * * Divididos de 4 em 4 na ordem Número do Campo
 	 * Rejeitado >> Código de Rejeição.
 	 */
-	@Field(ordinal = 23, length = 4, padding = '0', name = "Campo Rejeitado")
+	@Field(ordinal = 23, length = 4, align = Align.RIGHT, padding = '0', name = "Campo Rejeitado")
 	private String rejectedField9;
 
 	/**
@@ -361,7 +362,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 24, length = 4, padding = '0', name = "Código da Rejeição")
+	@Field(ordinal = 24, length = 4, align = Align.RIGHT, padding = '0', name = "Código da Rejeição")
 	private String rejectionCode9;
 
 	/**
@@ -379,7 +380,7 @@ public class RejectedTransactionData {
 	 * * Divididos de 4 em 4 na ordem Número do Campo
 	 * Rejeitado >> Código de Rejeição.
 	 */
-	@Field(ordinal = 25, length = 4, padding = '0', name = "Campo Rejeitado")
+	@Field(ordinal = 25, length = 4, align = Align.RIGHT, padding = '0', name = "Campo Rejeitado")
 	private String rejectedField10;
 
 	/**
@@ -392,7 +393,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 26, length = 4, padding = '0', name = "Código da Rejeição")
+	@Field(ordinal = 26, length = 4, align = Align.RIGHT, padding = '0', name = "Código da Rejeição")
 	private String rejectionCode10;
 
 	/**
@@ -405,7 +406,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o tipo de registro que originou
 	 * aquela rejeição.
 	 */
-	@Field(ordinal = 27, length = 3, padding = '0', name = "Identificador do Tipo de Mensagem Original")
+	@Field(ordinal = 27, length = 3, align = Align.RIGHT, padding = '0', name = "Identificador do Tipo de Mensagem Original")
 	private String originalMessageTypeIdentifier;
 
 	/**
@@ -418,7 +419,7 @@ public class RejectedTransactionData {
 	 * Utilizado para identificar o código de função daquela
 	 * transação.
 	 */
-	@Field(ordinal = 28, length = 3, padding = '0', name = "Identificador do Código de Função Original")
+	@Field(ordinal = 28, length = 3, align = Align.RIGHT, padding = '0', name = "Identificador do Código de Função Original")
 	private String originalFunctionCodeIdentifier;
 
 	/**
