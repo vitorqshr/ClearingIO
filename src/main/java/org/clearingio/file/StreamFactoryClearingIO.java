@@ -5,6 +5,7 @@ import org.beanio.BeanReaderErrorHandler;
 import org.beanio.BeanReaderException;
 import org.beanio.builder.FixedLengthParserBuilder;
 import org.beanio.builder.StreamBuilder;
+import org.clearingio.atc.*;
 import org.clearingio.ctf.*;
 import org.clearingio.ctf.incoming.*;
 import org.clearingio.ctf.outgoing.HeaderRecordsTCR0OutgoingCTF;
@@ -40,12 +41,12 @@ public class StreamFactoryClearingIO {
 				.addRecord(MemberSettlementDataTransactionsTCR0V2.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V3.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V4.class)
-//				.addRecord(MemberSettlementDataTransactionsTCR1V4.class)
+				//.addRecord(MemberSettlementDataTransactionsTCR1V4.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V5.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V6.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V7.class)
 				.addRecord(MemberSettlementDataTransactionsTCR0V9.class)
-//				.addRecord(MemberSettlementDataTransactionsTCR1V9.class)
+				//.addRecord(MemberSettlementDataTransactionsTCR1V9.class)
 				.addRecord(ReclassificationAdviceTransactionTRC0At7.class)
 				.addRecord(ReclassificationAdviceTransactionTRC9.class)
 				.addRecord(ReturnedItemTransactionsTRC0At8.class)
@@ -73,6 +74,35 @@ public class StreamFactoryClearingIO {
 				.addRecord(TrailerBZ.class);
 		streamFactory.define(streamBuilderIncomingELO);
 
+		StreamBuilder streamBuilderIncomingCABAL = new StreamBuilder("IncomingCABAL");
+		streamBuilderIncomingCABAL.format("fixedlength")
+				.parser(new FixedLengthParserBuilder())
+				.addRecord(HeaderData.class)
+				.addRecord(TransactionData.class)
+				.addRecord(CHIPData.class)
+				.addRecord(RejectedTransactionData.class)
+				.addRecord(RateAndVoucherBillingData.class)
+				.addRecord(FraudWarningData.class)
+				.addRecord(AirfareData.class)
+				.addRecord(CancellationAndUndoingData.class)
+				.addRecord(FileReconciliationData.class)
+				.addRecord(ChargebackData.class)
+				.addRecord(JourneyData.class)
+				.addRecord(FooterData.class);
+		streamFactory.define(streamBuilderIncomingCABAL);
+
+		StreamBuilder streamBuilderOutgoingCABAL = new StreamBuilder("OutgoingCABAL");
+		streamBuilderOutgoingCABAL.format("fixedlength")
+				.parser(new FixedLengthParserBuilder())
+				.addRecord(HeaderData.class)
+				.addRecord(TransactionData.class)
+				.addRecord(CHIPData.class)
+				.addRecord(RateAndVoucherBillingData.class)
+				.addRecord(AirfareData.class)
+				.addRecord(JourneyData.class)
+				.addRecord(CancellationAndUndoingData.class)
+				.addRecord(FooterData.class);
+		streamFactory.define(streamBuilderOutgoingCABAL);
 
 	}
 
